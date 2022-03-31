@@ -22,6 +22,7 @@ let currentPage = ref(1);
 let pageSize = ref(20);
 const emit = defineEmits(["currentPageChange", "pageSizeChange"]);
 const handleSizeChange = (val) => {
+  console.log();
   pageSize = val;
   emit("pageSizeChange", val);
 };

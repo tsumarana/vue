@@ -25,7 +25,7 @@ let pageSize = 20;
 let currentPage = 1;
 let totalCount = ref(200);
 let url =
-  "api/user/selectUserByPage?currentPage=" +
+  "/api/user/selectUserByPage?currentPage=" +
   currentPage +
   "&pageSize=" +
   pageSize;

@@ -32,6 +32,13 @@ import pagination from "../components/pagination.vue";
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 
+
+const { needCheck } = defineProps({
+  needCheck:String
+});
+
+
+
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 
@@ -39,7 +46,7 @@ let pageSize = 20;
 let currentPage = 1;
 let totalCount = ref(300);
 let url =
-  "api/goods/selectByPageAndCondition?currentPage=" +
+  "/api/goods/selectByPageAndCondition?currentPage=" +
   currentPage +
   "&pageSize=" +
   pageSize;
@@ -62,6 +69,7 @@ const selectInfo = (row) => {
 
 //查询商品
 function selectBrand() {
+  console.log(needCheck)
   console.log("selectBrand ....");
   api.selectBrand(url, brand).then((resp) => {
     console.log(resp.data);
