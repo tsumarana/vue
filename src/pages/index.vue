@@ -8,6 +8,7 @@
 </template>
 <script setup>
 import bar from "../components/bar.vue";
+
 </script>
 <style lang="less" scoped>
 .header-wrap {
