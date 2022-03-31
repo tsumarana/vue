@@ -1,0 +1,68 @@
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue,
+    Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  background: #fff;
+}
+body {
+  padding-top: constant(safe-area-inset-top); //为导航栏+状态栏的高度 88px
+  padding-left: constant(safe-area-inset-left); //如果未竖屏时为0
+  padding-right: constant(safe-area-inset-right); //如果未竖屏时为0
+  padding-bottom: constant(safe-area-inset-bottom); //为底下圆弧的高度 34px
+}
+
+html {
+  height: 100%;
+}
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+form,
+dl,
+dt,
+dd {
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-size: 1em;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a,
+a:focus,
+a:hover {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
