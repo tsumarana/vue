@@ -77,17 +77,11 @@ let message = ref(
   },
 );
 let messageList = ref([{
-  id:"1",
-  fromName:"b",
-  toName:"a",
-  message:"1234",
-  time:"2022-2-30 15:30:33",
-},{
-  id:"2",
-  fromName:"admin",
-  toName:"b",
-  message:"1234567",
-  time:"2022-2-30 15:33:33",
+  id:"",
+  fromName:"",
+  toName:"",
+  message:"",
+  time:"",
 }])
 let socket = ref(null);
 //初始化

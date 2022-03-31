@@ -53,11 +53,11 @@ let url =
 let brand = ref({ title: "", price: "", type: "", seller: "" });
 let tableData = ref([
   {
-    id: "1",
-    title: "大甩卖",
-    price: "1100",
-    type: "账号",
-    seller: "Los Angeles",
+    id: "",
+    title: "",
+    price: "",
+    type: "",
+    seller: "",
   },
 ]);
 
@@ -71,7 +71,7 @@ const selectInfo = (row) => {
 function selectBrand() {
   console.log(needCheck)
   console.log("selectBrand ....");
-  api.selectBrand(url, brand).then((resp) => {
+  api.selectBrand(url, brand,needCheck).then((resp) => {
     console.log(resp.data);
     tableData.value = resp.data.rows;
     totalCount.value = resp.data.totalCount;
@@ -101,6 +101,8 @@ function pageSizeChange(val) {
 function additionChange(val) {
   console.log("additionChange", val);
   brand = val;
+  console.log(brand);
+  selectBrand();
 }
 onMounted(() => {
   selectBrand();

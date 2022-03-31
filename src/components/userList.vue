@@ -78,6 +78,7 @@ function pageSizeChange(val) {
 function additionChange(val) {
   console.log("additionChange", val);
   user.value = val;
+  selectUser();
 }
 onMounted(() => {
   selectUser();
