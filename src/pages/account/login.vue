@@ -78,7 +78,7 @@ const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 let LoginData = reactive({
   id: "",
-  username: "a",
+  username: "b",
   password: "1",
   email: "",
   phone: "",
@@ -92,7 +92,10 @@ let imgSrc = ref("");
 function login() {
   api.login(LoginData).then((resp) => {
     localStorage.setItem("token",resp.data.token);
+    localStorage.setItem("username",resp.data.username);
+    localStorage.setItem("id",resp.data.id);
     if (resp.data.role === "1011") {
+      
       router.push("/manager");
     } else if (resp.data.role === "1012") {
       router.push('/showbrand');

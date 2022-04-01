@@ -51,9 +51,9 @@ let update = ref(false);
 let show = ref("");
 let size = ref("");
 let user = ref({
-  id: "",
+  id: localStorage.getItem("id"),
   img: "",
-  username: "admin",
+  username: localStorage.getItem("username"),
   email: "",
   phone: "",
   idCard: "",

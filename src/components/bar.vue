@@ -41,13 +41,17 @@
   </el-menu>
 </template>
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, reactive ,getCurrentInstance} from "vue";
+const api = getCurrentInstance().appContext.config.globalProperties.$api;
+let data = ref("{id:"+localStorage.getItem("id")+"}")
 let activeIndex = ref("2");
 let Userdata = reactive({
-  username: "我是一只鱼",
+  username: localStorage.getItem("username"),
 });
 const exit = () => {
-  console.log("退出登录");
+  localStorage.clear();
+  sessionStorage.clear();
+  api.exit(data.value)
 };
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);

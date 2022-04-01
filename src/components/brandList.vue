@@ -33,15 +33,13 @@ import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 
 
-const { needCheck } = defineProps({
-  needCheck:String
-});
-
-
 
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 
+const {id} = defineProps({
+  id: Number,
+});
 let pageSize = 20;
 let currentPage = 1;
 let totalCount = ref(300);
@@ -49,7 +47,7 @@ let url =
   "/api/goods/selectByPageAndCondition?currentPage=" +
   currentPage +
   "&pageSize=" +
-  pageSize;
+  pageSize+"&id="+id;
 let brand = ref({ title: "", price: "", type: "", seller: "" });
 let tableData = ref([
   {
@@ -61,6 +59,7 @@ let tableData = ref([
   },
 ]);
 
+
 //查看商品详情
 const selectInfo = (row) => {
   console.log(row.id);
@@ -69,9 +68,8 @@ const selectInfo = (row) => {
 
 //查询商品
 function selectBrand() {
-  console.log(needCheck)
   console.log("selectBrand ....");
-  api.selectBrand(url, brand,needCheck).then((resp) => {
+  api.selectBrand(url, brand).then((resp) => {
     console.log(resp.data);
     tableData.value = resp.data.rows;
     totalCount.value = resp.data.totalCount;
@@ -85,7 +83,7 @@ function currentPageChange(val) {
     "api/goods/selectByPageAndCondition?currentPage=" +
     currentPage +
     "&pageSize=" +
-    pageSize;
+    pageSize+"id="+props.id;
   selectBrand();
 }
 function pageSizeChange(val) {
@@ -95,7 +93,7 @@ function pageSizeChange(val) {
     "api/goods/selectByPageAndCondition?currentPage=" +
     currentPage +
     "&pageSize=" +
-    pageSize;
+    pageSize+"id="+props.id;
   selectBrand();
 }
 function additionChange(val) {

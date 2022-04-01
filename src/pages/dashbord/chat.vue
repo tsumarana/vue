@@ -21,8 +21,9 @@
       </div></el-aside
     >
     <el-main
-      ><div class="content" >
-        <div class="item" v-for="item in messageList" :key="item.id">
+      ><div class="content chat-wrap" :ref="chat" >
+        <div class="chat-window">
+          <div class="item" v-for="item in messageList" :key="item.id">
           <div  class="item item-left" v-if="item.fromName==activeFriend.username">
             <div class="avatar"><img :src = activeFriend.img ></div>
             <div class ="bubble">{{item.message}}</div>
@@ -32,6 +33,8 @@
             <div class="avatar"><img :src = activeFriend.img ></div>
           </div>
         </div>
+        </div>
+        
       </div>
       <div class="input-area">
         <textarea name="text" id="textarea" @keyup.enter="send" v-model="input"></textarea>
@@ -44,7 +47,7 @@
   </el-container>
 </template>
 <script setup>
-import { onMounted, ref, reactive, getCurrentInstance ,onBeforeUnmount} from "vue";
+import { onMounted, ref, reactive, getCurrentInstance ,onBeforeUnmount,nextTick} from "vue";
 
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -52,6 +55,7 @@ const api = getCurrentInstance().appContext.config.globalProperties.$api;
 const socketOptions = ref({
   autoConnect: false,
 });
+const chat = ref(0)
 let input = ref("")
 let activeFriend = ref({
   username :"admin",
@@ -70,7 +74,7 @@ let friendList = ref([
 let message = ref(
   {
     id:"",
-    fromName: "b",
+    fromName: localStorage.getItem("username"),
     toName: "admin",
     message: "",
     time: "",
@@ -78,8 +82,8 @@ let message = ref(
 );
 let messageList = ref([{
   id:"",
-  fromName:"",
-  toName:"",
+  fromName:localStorage.getItem("username"),
+  toName:"admin",
   message:"",
   time:"",
 }])
@@ -88,7 +92,7 @@ let socket = ref(null);
 const init = () => {
   if ("WebSocket" in window) {
     // 实例化socket
-    socket = new WebSocket("ws://localhost:8080/tomcat-demo1/websocket");
+    socket = new WebSocket("ws://localhost:8080/tomcat-demo1/websocket?token = "+localStorage.getItem("token"));
     // 监听socket连接
     socket.onopen = open;
     // 监听socket错误信息
@@ -111,6 +115,7 @@ function error() {
   close();
   console.log("连接错误");
 }
+
 function getMessage(msg) {
   console.log(msg.data);
   var json = eval("(" + msg.data + ")");
@@ -169,17 +174,23 @@ const send = () => {
   message.value.time = time;
   let str = JSON.stringify(message.value);
   socket.send(str);
-  api.addMessage(message.value);
-  input.value ="";
-  selectMessage();
+  api.addMessage(message.value).then(()=>{
+    selectMessage();
+  } )
+input.value ="";
+  
 };
 //获取消息列表
 function selectMessage(){
-  console.log("selctMessage");
-  console.log(message.value);
   api.selectMessage(message.value).then((resp)=>{
     console.log(resp.data);
     messageList.value =resp.data;
+    nextTick(()=>{
+      const wrap = document.querySelectorAll('.chat-wrap')[0]
+      const el = document.querySelectorAll('.chat-window')[0]
+      wrap.scrollTop = el.offsetHeight
+    })
+    
   })
 }
 onBeforeUnmount(()=>{

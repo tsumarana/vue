@@ -45,15 +45,15 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 let brand = reactive({
-  title: "1",
-  price: "1",
-  grade: "1",
-  type: "1",
-  accountGrade: "1",
-  decorate: "1",
-  rank: "1",
+  title: "",
+  price: "",
+  grade: "",
+  type: "",
+  accountGrade: "",
+  decorate: "",
+  rank: "",
   adult: "",
-  seller: "",
+  seller: localStorage.getItem("username"),
 });
 const addGoods = () => {
   api.addBrand(brand).then((resp) => {

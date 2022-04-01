@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <brandList :needCheck="false"/>
+      <brandList />
     </el-main>
   </el-container>
 </template>

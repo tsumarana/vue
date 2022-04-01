@@ -48,7 +48,7 @@ let user = ref({
 });
 function selectUser() {
   console.log("select user.....");
-  api.selectUser(url, user).then((resp) => {
+  api.selectUser(url, user.value).then((resp) => {
     console.log(resp.data);
     tableData.value = resp.data.rows;
     totalCount.value = resp.data.totalCount;
