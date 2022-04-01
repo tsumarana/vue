@@ -1,5 +1,5 @@
 <template>
-  <el-form :inline="true" :model="brand" class="demo-form-inline">
+  <el-form :inline="true" :model="brand" class="demo-form-inline" @keyup.enter="queryBrand">
     <el-form-item label="标题">
       <el-input v-model="brand.title" placeholder="标题"></el-input>
     </el-form-item>
@@ -13,7 +13,7 @@
       <el-input v-model="brand.seller" placeholder="卖家"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="queryBrand" @keyup.enter="queryBrand">查询</el-button>
+      <el-button type="primary" @click="queryBrand" >查询</el-button>
     </el-form-item>
   </el-form>
 </template>

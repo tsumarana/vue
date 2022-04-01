@@ -142,10 +142,11 @@ const selectList = () => {
 //选择好友
 const handleSelect = (key) => {
   activeFriend.value.username = key;
-  api.selectFriendByUsername(activeFriend.value).then((resp)=>{
-    activeFriend.value = resp.data
-  })
   message.value.toName = key;
+  api.selectFriendByUsername(activeFriend.value).then((resp)=>{
+    activeFriend.value = resp.data;
+    selectMessage();
+  })
 };
 //发送消息
 const send = () => {

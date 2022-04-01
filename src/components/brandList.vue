@@ -83,7 +83,7 @@ function currentPageChange(val) {
     "api/goods/selectByPageAndCondition?currentPage=" +
     currentPage +
     "&pageSize=" +
-    pageSize+"id="+props.id;
+    pageSize+"&id="+id;
   selectBrand();
 }
 function pageSizeChange(val) {
@@ -93,7 +93,7 @@ function pageSizeChange(val) {
     "api/goods/selectByPageAndCondition?currentPage=" +
     currentPage +
     "&pageSize=" +
-    pageSize+"id="+props.id;
+    pageSize+"&id="+id;
   selectBrand();
 }
 function additionChange(val) {

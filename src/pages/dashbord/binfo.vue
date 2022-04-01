@@ -48,7 +48,7 @@
         请在监护先进行购买
       </div>
       <div class="buy">
-        <el-button type="primary" @click="$router.push('/pay')">购买</el-button>
+        <el-button type="primary" @click="pay">购买</el-button>
         <span style="color: red; margin-left: 270px"
           ><el-button @click="$router.push('/chat')">联系客服</el-button></span
         >
@@ -76,6 +76,9 @@ let info = ref({
   adult: "",
   seller: "",
 });
+const pay = ()=>{
+   router.push({ path: "/pay", query: { username: info.value.seller } });
+}
 function selectBrandById(params) {
   api.selectBrandById(params).then((resp) => {
     info.value = resp.data;

@@ -1,5 +1,5 @@
 <template>
-  <el-form :inline="true" :model="user" class="demo-form-inline">
+  <el-form :inline="true" :model="user" class="demo-form-inline" @keyup.enter="queryUser">
     <el-form-item label="用户名">
       <el-input v-model="user.username" placeholder="用户名"></el-input>
     </el-form-item>
@@ -13,7 +13,7 @@
       <el-input v-model="user.name" placeholder="姓名"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="queryUser">查询</el-button>
+      <el-button type="primary" @click="queryUser" >查询</el-button>
     </el-form-item>
   </el-form>
 </template>

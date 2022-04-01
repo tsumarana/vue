@@ -28,4 +28,6 @@ export const selectMessage = (data) => axios('/api/message/selectMessage', 'post
 
 export const addMessage = (data) => axios('/api/message/addMessage', 'post', data)
 
-export const exit = (data)=>axios("api/user/exit","post",data)
+export const exit = (data) => axios("api/user/exit", "post", data)
+
+export const addFriend = (data) => axios("api/friend/makeFriend", "post", data)
