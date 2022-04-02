@@ -12,7 +12,7 @@
         class="Form"
       >
         <el-descriptions-item label="头像">
-          <img :src="user.img" />
+          <img :src="user.img" class="avatar"/>
           <el-button v-if="update" style="margin-left: 200px" type="primary"
             >上传</el-button
           >
@@ -62,7 +62,6 @@ let user = ref({
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 function selectInfo() {
   api.selectInfo(user.value).then((resp) => {
-    console.log(resp.data);
     user.value = resp.data;
   });
 }
@@ -82,5 +81,9 @@ onMounted(() => {
 .Form {
   margin-left: 10%;
   width: 500px;
+  .avatar{
+    width:50px;
+    height: 50px;
+  }
 }
 </style>

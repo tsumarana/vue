@@ -94,8 +94,8 @@ function login() {
     localStorage.setItem("token",resp.data.token);
     localStorage.setItem("username",resp.data.username);
     localStorage.setItem("id",resp.data.id);
+    localStorage.setItem("img",resp.data.img);
     if (resp.data.role === "1011") {
-      
       router.push("/manager");
     } else if (resp.data.role === "1012") {
       router.push('/showbrand');

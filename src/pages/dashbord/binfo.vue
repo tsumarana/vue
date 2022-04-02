@@ -48,9 +48,9 @@
         请在监护先进行购买
       </div>
       <div class="buy">
-        <el-button type="primary" @click="pay">购买</el-button>
-        <el-button type="primary" @click="pay">添加到购物车</el-button>
-        <el-button type="primary" @click="pay">与商家联系</el-button>
+        <el-button type="primary" @click="pay()">购买</el-button>
+        <el-button type="primary" @click="addTrolley()">添加到购物车</el-button>
+        <el-button type="primary" @click="pay()">与商家联系</el-button>
         <el-button @click="$router.push('/chat')">联系客服</el-button>
         
       </div>
@@ -76,13 +76,18 @@ let info = ref({
   rank: "",
   adult: "",
   seller: "",
+  username :"",
 });
 const pay = ()=>{
    router.push({ path: "/pay", query: { username: info.value.seller } });
 }
+const addTrolley = () =>{
+  api.addTrolley(info.value)
+}
 function selectBrandById(params) {
   api.selectBrandById(params).then((resp) => {
     info.value = resp.data;
+    info.value.username = localStorage.getItem("username")
   });
 }
 onMounted(() => {

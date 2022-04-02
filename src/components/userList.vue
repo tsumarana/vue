@@ -11,9 +11,12 @@
     </el-table-column>
     <el-table-column prop="name" label="姓名" align="center"> </el-table-column>
     <el-table-column  label="操作" align="center">
+      <template #default="scope">
       <el-button size = "small"> 冻结 </el-button> 
-      <el-button size = "small"> 注销</el-button> 
+      <el-button size = "small" @click="logoff(scope.row)"> 注销</el-button> 
+      </template>
       </el-table-column>
+      
   </el-table>
   <pagination
     :totalCount="totalCount"
@@ -57,6 +60,12 @@ function selectUser() {
     tableData.value = resp.data.rows;
     totalCount.value = resp.data.totalCount;
   });
+}
+//注销
+const logoff = (row)=>{
+  api.logoffUser(row).then((resp)=>{
+    selectUser();
+  })
 }
 //传值
 function currentPageChange(val) {

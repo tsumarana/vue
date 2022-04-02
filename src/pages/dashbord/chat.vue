@@ -30,7 +30,7 @@
           </div>
           <div  class="item item-right" v-if="item.fromName==user.username" >
             <div class ="bubble">{{item.message}}</div>
-            <div class="avatar"><img :src = activeFriend.img ></div>
+            <div class="avatar"><img :src = user.img ></div>
           </div>
         </div>
         </div>
@@ -60,10 +60,12 @@ let input = ref("")
 let activeFriend = ref({
   username :"admin",
   img :"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3313909130,2406410525&fm=15&gp=0.jpg",
+  // username :"",
+  // img :"",
 });
 let user = ref({
-  img: "https://t7.baidu.com/it/u=825057118,3516313570&fm=193&f=GIF",
-  username: "b",
+  img: localStorage.getItem("img"),
+  username: localStorage.getItem("username"),
 });
 let friendList = ref([
   {
@@ -75,7 +77,7 @@ let message = ref(
   {
     id:"",
     fromName: localStorage.getItem("username"),
-    toName: "admin",
+    toName: activeFriend.value.username,
     message: "",
     time: "",
   },
@@ -83,7 +85,7 @@ let message = ref(
 let messageList = ref([{
   id:"",
   fromName:localStorage.getItem("username"),
-  toName:"admin",
+  toName:activeFriend.value.username,
   message:"",
   time:"",
 }])
@@ -141,12 +143,13 @@ const selectList = () => {
 };
 //选择好友
 const handleSelect = (key) => {
-  api.selectFriendByUsername(activeFriend.value).then((resp)=>{
+  console.log("现在活跃好友名="+key);
+  api.selectFriendByUsername({username:key}).then((resp)=>{
+    console.log("获取到活跃好友信息---"+resp.data);
     activeFriend.value.username = key;
     message.value.toName = key;
-    selectMessage();
     activeFriend.value = resp.data;
-    
+    selectMessage();
   })
 };
 //发送消息
