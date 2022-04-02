@@ -5,7 +5,7 @@
     </el-aside>
     <el-main>
       <userList v-if="'userSetting' == active" />
-      <brandList v-if="'brandMananger' == active" :id = id />
+      <brandList v-if="'brandMananger' == active" :id = id :manager = manager />
       <brandList v-if="'authSetting' == active" />
       <brandList v-if="'brandStatistics' == active" />
     </el-main>
@@ -18,6 +18,7 @@ import brandList from "../../components/brandList.vue"
 import { ref, reactive } from "vue";
 let active = ref("userSetting");
 const id = ref(1);
+const manager = ref("manager")
 function activeChange(val) {
   active.value = val;
 }

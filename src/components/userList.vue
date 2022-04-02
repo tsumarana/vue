@@ -10,6 +10,10 @@
     <el-table-column prop="idCard" label="身份证" width="180" align="center">
     </el-table-column>
     <el-table-column prop="name" label="姓名" align="center"> </el-table-column>
+    <el-table-column  label="操作" align="center">
+      <el-button size = "small"> 冻结 </el-button> 
+      <el-button size = "small"> 注销</el-button> 
+      </el-table-column>
   </el-table>
   <pagination
     :totalCount="totalCount"

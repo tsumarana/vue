@@ -31,3 +31,5 @@ export const addMessage = (data) => axios('/api/message/addMessage', 'post', dat
 export const exit = (data) => axios("api/user/exit", "post", data)
 
 export const addFriend = (data) => axios("api/friend/makeFriend", "post", data)
+
+export const selectTrolley = (data) => axios("api/trolley/selectTrolley","post",data)

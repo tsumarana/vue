@@ -16,6 +16,7 @@
         <el-button type="text" size="small" @click="selectInfo(scope.row)">
           查看商品详情
         </el-button>
+        <el-button type = "error" size="small" v-if=" 'manager' == manager">下架</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -32,13 +33,11 @@ import pagination from "../components/pagination.vue";
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 
-
-
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
-
-const {id} = defineProps({
+const {id,manager} = defineProps({
   id: Number,
+  manager:String,
 });
 let pageSize = 20;
 let currentPage = 1;

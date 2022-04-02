@@ -49,9 +49,10 @@
       </div>
       <div class="buy">
         <el-button type="primary" @click="pay">购买</el-button>
-        <span style="color: red; margin-left: 270px"
-          ><el-button @click="$router.push('/chat')">联系客服</el-button></span
-        >
+        <el-button type="primary" @click="pay">添加到购物车</el-button>
+        <el-button type="primary" @click="pay">与商家联系</el-button>
+        <el-button @click="$router.push('/chat')">联系客服</el-button>
+        
       </div>
     </el-aside>
   </el-container>
