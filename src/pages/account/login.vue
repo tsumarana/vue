@@ -64,7 +64,8 @@
       <el-main></el-main>
     </el-container>
     <el-container>
-      <el-footer height="280px"></el-footer>
+      <el-footer height="280px">
+      </el-footer>
     </el-container>
   </el-container>
   
@@ -91,6 +92,10 @@ let imgSrc = ref("");
 
 function login() {
   api.login(LoginData).then((resp) => {
+    if(resp == "checkError"){
+      ElMessage.error("验证码错误");
+      return;
+    }
     localStorage.setItem("token",resp.data.token);
     localStorage.setItem("username",resp.data.username);
     localStorage.setItem("id",resp.data.id);

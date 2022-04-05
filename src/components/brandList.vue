@@ -16,7 +16,7 @@
         <el-button type="text" size="small" @click="selectInfo(scope.row)">
           查看商品详情
         </el-button>
-        <el-button type = "error" size="small" v-if=" 'manager' == manager">下架</el-button>
+        <el-button type = "error" size="small" v-if=" 'manager' == manager" @click="deleteOrder(scope.row)">下架</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -48,6 +48,7 @@ let url =
   "&pageSize=" +
   pageSize+"&id="+id;
 let brand = ref({ title: "", price: "", type: "", seller: "" });
+
 let tableData = ref([
   {
     id: "",
@@ -58,7 +59,12 @@ let tableData = ref([
   },
 ]);
 
-
+//下架商品
+const deleteOrder = (row)=>{
+  api.deleteOrder(row).then((resp)=>{
+    selectBrand();
+  })
+}
 //查看商品详情
 const selectInfo = (row) => {
   console.log(row.id);

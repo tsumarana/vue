@@ -13,7 +13,7 @@
     <el-table-column prop="status" label="状态" width="120" align="center" />
     <el-table-column prop="right" label="操作" align="center">
       <template #default="scope">
-        <el-button  size= "small" type="primary" @click="deleteOrder(scope.row)">下架</el-button>
+        <el-button  size= "small" type="primary" @click="deleteSellerOrder(scope.row)">下架</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -47,10 +47,11 @@ const selectSellerOrder = () =>{
   })
 }
 
-const deleteOrder = (row) =>{
+const deleteSellerOrder = (row) =>{
     console.log(row);
-    api.deleteOrder(row).then((resp)=>{
+    api.deleteSellerOrder(row).then((resp)=>{
       console.log(resp);
+      selectSellerOrder();
     })
 }
 onMounted(()=>{

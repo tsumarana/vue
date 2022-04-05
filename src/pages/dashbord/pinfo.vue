@@ -12,10 +12,19 @@
         class="Form"
       >
         <el-descriptions-item label="头像">
-          <img :src="user.img" class="avatar"/>
-          <el-button v-if="update" style="margin-left: 200px" type="primary"
-            >上传</el-button
+          <img :src="user.img" v-if="!update" class="avatar"/>
+
+          <el-upload
+            class="avatar-uploader"
+            action="api/user/upload"
+            v-if="update"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
           >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+  </el-upload>
         </el-descriptions-item>
         <el-descriptions-item label="用户名"
           ><span v-if="!update">{{ user.username }}</span>
@@ -45,8 +54,16 @@
   <el-button @click="alter" type="primary" v-if="update">保存</el-button>
   <el-button @click="change" v-if="update">取消</el-button>
 </template>
-<script setup>
+<script lang= ts setup>
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
+import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import type { UploadProps } from 'element-plus'
+
+const imageUrl = ref('')
+
+
+
 let update = ref(false);
 let show = ref("");
 let size = ref("");
@@ -60,6 +77,26 @@ let user = ref({
   name: "",
 });
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  console.log(URL.createObjectURL(uploadFile.raw!))
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png' && rawFile.type !== 'image/jpg') {
+    ElMessage.error('Avatar picture must be legal format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+
 function selectInfo() {
   api.selectInfo(user.value).then((resp) => {
     user.value = resp.data;
@@ -69,8 +106,11 @@ function change() {
   update.value = !update.value;
 }
 function alter() {
-  console.log("alter ......");
-  change();
+  api.alterUser(user.value).then((resp)=>{
+    change();
+    selectInfo();
+  })
+  
 }
 onMounted(() => {
   console.log("onMounted");
@@ -85,5 +125,27 @@ onMounted(() => {
     width:50px;
     height: 50px;
   }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  
+  font-size: 28px;
+  color: #8c939d;
+  width: 50px;
+  height: 50px;
+  text-align: center;
 }
 </style>

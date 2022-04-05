@@ -32,21 +32,22 @@ export const exit = (data) => axios("api/user/exit", "post", data)
 
 export const addFriend = (data) => axios("api/friend/makeFriend", "post", data)
 
-export const selectTrolley = (data) => axios("api/trolley/selectTrolley","post",data)
+export const selectTrolley = (data) => axios("api/trolley/selectTrolley", "post", data)
 
-export const deleteTrolley = (data) => axios("api/trolley/deleteTrolley","post",data)
+export const deleteTrolley = (data) => axios("api/trolley/deleteTrolley", "post", data)
 
-export const saveCount = (data) => axios("api/trolley/saveCount","post",data)
+export const saveCount = (data) => axios("api/trolley/saveCount", "post", data)
 
-export const addTrolley = (data) =>axios("api/trolley/addTrolley","post",data)
+export const addTrolley = (data) => axios("api/trolley/addTrolley", "post", data)
 
-//未完善
-export const logoffUser = (data)=>axios("api/user/logoffUser","post",data);
+export const alterUser = (data) => axios("api/user/alterUserInfo", "post", data)
 
-//未完善
-export const selectSellerOrder = (data)=>axios("api/order/selectSellerOrder","post",data)
+export const logoffUser = (data) => axios("api/user/logoffUser", "post", data);
 
-//下架商品（商家）..未完成
-export const deleteOrder = (data)=>axios("api/order/deleteOrder","post",data)
+export const freezeUser = (data) => axios("api/user/freezeUser", "post", data)
 
+export const selectSellerOrder = (data) => axios("api/order/selectSellerOrder", "post", data)
 
+export const deleteOrder = (data) => axios("api/order/deleteOrder", "post", data)
+
+export const deleteSellerOrder = (data) => axios("api/order/delete", "post", data)

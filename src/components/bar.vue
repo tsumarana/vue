@@ -33,8 +33,11 @@
       <el-menu-item index="6-2" @click="$router.push('/btrolley')"
         >购物车</el-menu-item
       >
+      <el-menu-item index="6-3" @click="$router.push('/border')"
+        >买家订单</el-menu-item
+      >
       <el-menu-item index="6-3" @click="$router.push('/order')"
-        >订单</el-menu-item
+        >卖家订单</el-menu-item
       >
       <el-menu-item index="6-4" @click="exit">退出登录</el-menu-item>
     </el-sub-menu>

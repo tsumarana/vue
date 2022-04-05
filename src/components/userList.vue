@@ -10,9 +10,10 @@
     <el-table-column prop="idCard" label="身份证" width="180" align="center">
     </el-table-column>
     <el-table-column prop="name" label="姓名" align="center"> </el-table-column>
+    <el-table-column prop="status" label="状态" align="center"> </el-table-column>
     <el-table-column  label="操作" align="center">
       <template #default="scope">
-      <el-button size = "small"> 冻结 </el-button> 
+      <el-button size = "small" @click="freeze(scope.row)"> 冻结 </el-button> 
       <el-button size = "small" @click="logoff(scope.row)"> 注销</el-button> 
       </template>
       </el-table-column>
@@ -45,6 +46,7 @@ let tableData = ref([
     phone: "",
     idCard: "",
     name: "",
+    status:"",
   },
 ]);
 let user = ref({
@@ -64,6 +66,12 @@ function selectUser() {
 //注销
 const logoff = (row)=>{
   api.logoffUser(row).then((resp)=>{
+    selectUser();
+  })
+}
+//冻结
+const freeze = (row)=>{
+  api.freezeUser(row).then((resp)=>{
     selectUser();
   })
 }

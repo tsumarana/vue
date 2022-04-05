@@ -3,14 +3,24 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-  server:{
-    proxy:{
-      '/api': {
-        target: 'http://localhost:8080/tomcat-demo1/',
-        changeOrigin:true,
-        rewrite: path => path.replace(/^\/api/, ''),
-      }
+    plugins: [vue()],
+    server: {
+        proxy: {
+            // '/api': {
+            //     target: 'http://localhost:8080/tomcat-demo1/',
+            //     changeOrigin: true,
+            //     rewrite: path => path.replace(/^\/api/, ''),
+            // },
+            '/api': {
+                target: 'http://localhost:8070/',
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/api/, ''),
+            },
+            '/app': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/app/, ''),
+            }
+        }
     }
-  }
 })

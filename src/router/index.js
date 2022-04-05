@@ -74,6 +74,12 @@ const routes = [{
                 component: () =>
                     import ('../pages/dashbord/chat.vue')
             },
+            {
+                path: '/border',
+                name: "border",
+                component: () =>
+                    import ('../pages/dashbord/border.vue')
+            },
         ]
     }
 
@@ -87,7 +93,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token")
-    if (to.name !== "login" && to.name !== "register" && !token && to.name !=="showBrand" ) {
+    if (to.name !== "login" && to.name !== "register" && !token && to.name !== "showBrand") {
         next({ name: "login" })
     } else {
         next()
