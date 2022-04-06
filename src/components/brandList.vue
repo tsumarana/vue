@@ -39,6 +39,7 @@ const {id,manager} = defineProps({
   id: Number,
   manager:String,
 });
+
 let pageSize = 20;
 let currentPage = 1;
 let totalCount = ref(300);
@@ -56,6 +57,7 @@ let tableData = ref([
     price: "",
     type: "",
     seller: "",
+    img:"",
   },
 ]);
 
@@ -111,3 +113,6 @@ onMounted(() => {
   selectBrand();
 });
 </script>
+<style >
+
+</style>

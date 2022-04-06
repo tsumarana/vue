@@ -233,6 +233,11 @@ const submit = (formEl) => {
   formEl.validate((valid) => {
     if (valid) {
       api.register(userData).then((resp) => {
+        if(resp.data == "checkError"){
+          ElMessage.error("验证码错误");
+          changeImg();
+          return;
+        }
         if (resp.data == "success") {
           ElMessage({
             message: "注册成功",

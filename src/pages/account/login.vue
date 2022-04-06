@@ -92,8 +92,9 @@ let imgSrc = ref("");
 
 function login() {
   api.login(LoginData).then((resp) => {
-    if(resp == "checkError"){
+    if(resp.data == "checkError"){
       ElMessage.error("验证码错误");
+      changeImg();
       return;
     }
     localStorage.setItem("token",resp.data.token);

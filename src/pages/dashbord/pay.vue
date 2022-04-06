@@ -23,10 +23,12 @@ const selectInfo = ()=>{
   })
 }
 const finish = ()=>{
-  console.log(friend.value);
-  api.addFriend(friend.value).then((resp)=>{
+  api.pay({brandId:route.query.brandId}).then((resp)=>{
+      api.addFriend(friend.value).then((resp)=>{
       router.push("/chat");
   })
+  })
+  
 }
 onMounted(()=>{
   selectInfo()

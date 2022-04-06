@@ -76,13 +76,14 @@ let user = ref({
   idCard: "",
   name: "",
 });
+let img = ref("");
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile
 ) => {
-  console.log(URL.createObjectURL(uploadFile.raw!))
+  img.value = response.url;
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 
@@ -104,10 +105,14 @@ function selectInfo() {
 }
 function change() {
   update.value = !update.value;
+  imageUrl.value=''
 }
 function alter() {
+  user.value.img = img.value;
+  localStorage.setItem("img",img.value);
   api.alterUser(user.value).then((resp)=>{
     change();
+    
     selectInfo();
   })
   

@@ -28,7 +28,6 @@ let brand = reactive({
 });
 
 const queryBrand = () => {
-  console.log(brand);
   emit("additionChange", brand);
 };
 </script>

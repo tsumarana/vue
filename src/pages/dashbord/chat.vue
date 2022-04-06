@@ -94,7 +94,7 @@ let socket = ref(null);
 const init = () => {
   if ("WebSocket" in window) {
     // 实例化socket
-    socket = new WebSocket("ws://localhost:8080/tomcat-demo1/websocket?token = "+localStorage.getItem("token"));
+    socket = new WebSocket("ws://localhost:8070/websocket?token = "+localStorage.getItem("token"));
     // 监听socket连接
     socket.onopen = open;
     // 监听socket错误信息
@@ -143,7 +143,6 @@ const selectList = () => {
 };
 //选择好友
 const handleSelect = (key) => {
-  console.log("现在活跃好友名="+key);
   api.selectFriendByUsername({username:key}).then((resp)=>{
     console.log("获取到活跃好友信息---"+resp.data);
     activeFriend.value.username = key;

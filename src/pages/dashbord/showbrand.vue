@@ -6,7 +6,7 @@
   </el-container>
 </template>
 <script setup>
-import brandList from "../../components/brandList.vue";
+import brandList from "../../components/nbrandList.vue";
 import { onMounted, ref, reactive, getCurrentInstance ,onBeforeUnmount} from "vue";
 import { useRouter } from "vue-router";
 const manager = ref("")

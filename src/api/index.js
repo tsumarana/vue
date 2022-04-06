@@ -9,6 +9,7 @@ export const register = (data) => axios('/api/user/selectUserByUserInfo', 'post'
 
 export const selectBrand = (url, data) => axios(url, 'post', data)
 
+export const selectnBrand = (data) => axios('/api/goods/selectGoods', 'post', data)
 //查找用户接口
 export const selectUser = (url, data) => axios(url, 'post', data)
 
@@ -51,3 +52,9 @@ export const selectSellerOrder = (data) => axios("api/order/selectSellerOrder", 
 export const deleteOrder = (data) => axios("api/order/deleteOrder", "post", data)
 
 export const deleteSellerOrder = (data) => axios("api/order/delete", "post", data)
+//添加到买家订单
+export const addBOrder = (data) => axios("api/border/addOrder","post",data)
+//查询买家订单
+export const selectBuyerOrder = (data) => axios("api/border/selectBuyerOrder", "post", data)
+//完成支付
+export const pay = (data) => axios("api/border/pay","post",data)

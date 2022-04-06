@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside width="500px">
-      <img src="../../assets/images/test1.jpg" class="image" />
+      <img :src="info.img" class="image" />
     </el-aside>
     <el-main>
       <el-descriptions
@@ -77,9 +77,13 @@ let info = ref({
   adult: "",
   seller: "",
   username :"",
+  img:"",
 });
 const pay = ()=>{
-   router.push({ path: "/pay", query: { username: info.value.seller } });
+  api.addBOrder(info.value).then((resp)=>{
+    router.push({ path: "/pay", query: { username: info.value.seller, brandId : info.value.id } });
+  })
+   
 }
 const addTrolley = () =>{
   api.addTrolley(info.value)
@@ -96,7 +100,10 @@ onMounted(() => {
 </script>
 <style lang="less">
 .image {
-  margin-top: 50px;
+  margin-top: 160px;
+  margin-left: 30px;
+  width: 459px;
+  height: 332px;
 }
 .userinfo {
   margin-top: 200px;
