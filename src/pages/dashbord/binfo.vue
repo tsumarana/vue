@@ -81,7 +81,8 @@ let info = ref({
 });
 const pay = ()=>{
   api.addBOrder(info.value).then((resp)=>{
-    router.push({ path: "/pay", query: { username: info.value.seller, brandId : info.value.id } });
+  
+    router.push({ path: "/pay", query: { username: info.value.seller, id : resp.data.id } });
   })
    
 }

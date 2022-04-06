@@ -14,6 +14,7 @@ let friend = ref({
   img:"",
   myImg:""
 })
+let orderid = ref(route.query.id);
 const selectInfo = ()=>{
   api.selectInfo({username:route.query.username}).then((resp)=>{
     friend.value.img = resp.data.img;
@@ -23,11 +24,16 @@ const selectInfo = ()=>{
   })
 }
 const finish = ()=>{
-  api.pay({brandId:route.query.brandId}).then((resp)=>{
+  api.pay({id:orderid.value}).then((resp)=>{
       api.addFriend(friend.value).then((resp)=>{
       router.push("/chat");
   })
   })
+  // api.pay({brandId:route.query.brandId}).then((resp)=>{
+  //     api.addFriend(friend.value).then((resp)=>{
+  //     router.push("/chat");
+  // })
+  // })
   
 }
 onMounted(()=>{

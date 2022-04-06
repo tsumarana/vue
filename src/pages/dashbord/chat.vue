@@ -187,7 +187,6 @@ input.value ="";
 //获取消息列表
 function selectMessage(){
   api.selectMessage(message.value).then((resp)=>{
-    console.log(resp.data);
     messageList.value =resp.data;
     nextTick(()=>{
       const wrap = document.querySelectorAll('.chat-wrap')[0]

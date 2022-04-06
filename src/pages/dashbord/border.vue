@@ -43,7 +43,7 @@ let tableData = ref([{
 }])
 
 const pay = (row)=>{
-    router.push({ path: "/pay", query: { username: row.seller , brandId : row.brandId } });
+    router.push({ path: "/pay", query: { username: row.seller , id : row.id} });
 }
 const selectBuyerOrder = () =>{
   api.selectBuyerOrder({'buyer':localStorage.getItem("username")}).then((resp)=>{

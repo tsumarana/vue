@@ -9,7 +9,7 @@
     />
     <el-table-column prop="price" label="价格" width="120" align="center" />
     <el-table-column prop="seller" label="卖家" width="120" align="center" />
-    <el-table-column prop="time" label="时间" width="120" align="center" />
+    <el-table-column prop="time" label="时间" width="200" align="center" />
     <el-table-column prop="status" label="状态" width="120" align="center" />
     <el-table-column prop="right" label="操作" align="center">
       <template #default="scope">
