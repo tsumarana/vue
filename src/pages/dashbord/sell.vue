@@ -129,7 +129,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   font-size: 28px;
   color: #8c939d;
   width: 178px;
-  height: 178px;
+  height: 140px;
   text-align: center;
 }
 </style>

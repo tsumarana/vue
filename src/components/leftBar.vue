@@ -27,10 +27,10 @@ const menuOptions = ref([
     key: "brandMananger",
     name: "商品管理",
   },
-  {
-    key: "authSetting",
-    name: "权限管理",
-  },
+  // {
+  //   key: "authSetting",
+  //   name: "权限管理",
+  // },
   {
     key: "brandStatistics",
     name: "商品统计",

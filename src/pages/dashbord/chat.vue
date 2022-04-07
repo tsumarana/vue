@@ -177,12 +177,18 @@ function error() {
 }
 
 function getMessage(msg) {
+  
   console.log(msg.data);
   var json = eval("(" + msg.data + ")");
   console.log(user.value.username);
   if (json.toName == user.value.username) {
     console.log("success");
-    // setMessageInnerHTML(json.message);
+    message.value.fromName = json.fromName;
+    message.value.toName = json.toName;
+    message.value.message = json.message;
+    message.value.time = json.time;
+    messageList.value.push(message)
+    console.log(messageList.value);
   } else {
     console.log("fail");
   }
@@ -212,13 +218,13 @@ const selectOrderByUser = () => {
 //取消订单
 const cancel = ()=>{
   api.cancel({id:brand.value.id}).then((resp)=>{
-    
+    selectOrderByUser();
   })
 }
 //确认完成
 const confirm = ()=>{
   api.confirm({id:brand.value.id}).then((resp)=>{
-    
+    selectOrderByUser();
   })
 }
 //上传成功

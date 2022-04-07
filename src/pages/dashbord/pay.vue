@@ -30,10 +30,12 @@ const selectInfo = ()=>{
     friend.value.Mysuccess = resp.data.success;
     friend.value.Myfail = resp.data.fail;
   })
+  
 }
 const finish = ()=>{
   api.pay({id:orderid.value}).then((resp)=>{
-    api.addFriend(friend.value).then((resp)=>{
+      api.addFriend(friend.value).then((resp)=>{
+        router.push("/chat");
   })
   })
   
