@@ -2,7 +2,8 @@
   <bar />
   <el-container>
     <el-aside
-      ><div class="friendList">
+      >
+      <div class="friendList">
         <el-row class="tac">
           <el-col :span="24">
             <el-menu
@@ -21,7 +22,9 @@
       </div></el-aside
     >
     <el-main
-      ><div class="content chat-wrap" :ref="chat" >
+      >
+      <div class="nowOrder" v-if="activeFriend.username!=='admin'">当前订单{{brand.name}}</div>
+      <div class="content chat-wrap" :ref="chat" >
         <div class="chat-window">
           <div class="item" v-for="item in messageList" :key="item.id">
           <div  class="item item-left" v-if="item.fromName==activeFriend.username">
@@ -34,22 +37,63 @@
           </div>
         </div>
         </div>
-        
       </div>
+
+      <div class="icon" v-if="activeFriend.username=='admin'">
+        <el-upload
+        ref="uploadRef"
+        class="upload-demo"
+        action="api/message/upload"
+        accept=".mp4,.avi,.wmv"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :auto-upload="true"
+        >
+    <el-icon  >
+            <upload />
+    </el-icon>
+    </el-upload>
+         
+        </div>
       <div class="input-area">
+        
         <textarea name="text" id="textarea" @keyup.enter="send" v-model="input"></textarea>
         <div class="button-area">
           <button id="send-btn" @click="send">发 送</button>
         </div>
       </div></el-main
     >
-    <el-aside></el-aside>
+    <el-aside>
+      <div class="userinfo">
+        <el-descriptions title="" column="1">
+          <el-descriptions-item label="用户:" v-if="activeFriend.username=='admin'">管理员</el-descriptions-item>
+          <el-descriptions-item label="用户:" v-if="activeFriend.username !=='admin'">{{activeFriend.username}}</el-descriptions-item>
+          <el-descriptions-item label="卖家信誉:" v-if="activeFriend.username!=='admin'">新用户</el-descriptions-item>
+          <el-descriptions-item label="成交订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.success}}</el-descriptions-item>
+          <el-descriptions-item label="取消订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.fail}}</el-descriptions-item>
+          <el-descriptions-item label="成交概率:" v-if="activeFriend.username!=='admin'">{{activeFriend.success/(Number(activeFriend.success)+Number(activeFriend.fail))}}</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <div v-for="item in brandList"  :key="item.name"  >
+        <el-link type="primary" @click="change(item)" >{{item.name}}</el-link>
+      </div>
+      <div class="tips" v-if="activeFriend.username!=='admin'">
+        <p class="warntip">温馨提示</p>
+        <span class="littleTip">请在监护先进行购买</span>
+      </div>
+      <div class="button" v-if="activeFriend.username!=='admin'">
+        <el-button class="confirm" @click="confirm">确认</el-button>
+        <el-button class="cancel" @click="cancel">取消</el-button>
+      </div>
+    </el-aside>
   </el-container>
 </template>
-<script setup>
+<script  setup>
 import { onMounted, ref, reactive, getCurrentInstance ,onBeforeUnmount,nextTick} from "vue";
-
+import { Upload } from '@element-plus/icons-vue'
+import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+// import type { UploadProps } from 'element-plus'
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 const socketOptions = ref({
@@ -60,6 +104,8 @@ let input = ref("")
 let activeFriend = ref({
   username :"admin",
   img :"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3313909130,2406410525&fm=15&gp=0.jpg",
+  success:"",
+  fail:"",
   // username :"",
   // img :"",
 });
@@ -71,8 +117,20 @@ let friendList = ref([
   {
     friendname: "",
     img: "",
+    success:"",
+    fail:"",
   },
 ]);
+let brand = ref({
+  name:'',
+  id:''
+})
+let brandList = ref([
+  {
+    name:'',
+    id:'',
+  }
+])
 let message = ref(
   {
     id:"",
@@ -130,9 +188,49 @@ function getMessage(msg) {
   }
   console.log("getMeesage");
 }
+
 function close() {
   console.log('close');
   socket.close();
+}
+//改变订单
+const change = (item)=>{
+  brand.value = item
+}
+//查询交易中的订单
+const selectOrderByUser = () => {
+  brand.value.name = "";
+  brand.value.id = "";
+  api.selectOrderByUser({buyer:localStorage.getItem("username"),seller:activeFriend.value.username}).then((resp) => {
+  if(resp.data.length !== 0){
+    brandList.value = resp.data;
+    brand.value.id = resp.data[0].id;
+    brand.value.name = resp.data[0].name;
+  }
+  });
+}
+//取消订单
+const cancel = ()=>{
+  api.cancel({id:brand.value.id}).then((resp)=>{
+    
+  })
+}
+//确认完成
+const confirm = ()=>{
+  api.confirm({id:brand.value.id}).then((resp)=>{
+    
+  })
+}
+//上传成功
+const handleAvatarSuccess = (
+  response,
+  uploadFile
+) => {
+  if(response.status =="success"){
+    ElMessage.success("上传成功")
+  }else{
+    ElMessage.error("上传失败")
+  }
 }
 //查找好友列表
 const selectList = () => {
@@ -144,31 +242,17 @@ const selectList = () => {
 //选择好友
 const handleSelect = (key) => {
   api.selectFriendByUsername({username:key}).then((resp)=>{
-    console.log("获取到活跃好友信息---"+resp.data);
     activeFriend.value.username = key;
     message.value.toName = key;
     activeFriend.value = resp.data;
+    selectOrderByUser();
     selectMessage();
   })
 };
 //发送消息
 const send = () => {
-  console.log("send ......");
   let date = new Date();
-  let hours = date.getHours();
-  let min = date.getMinutes();
-  let seconds = date.getSeconds();
-  if(hours < 10){
-    hours = "0" + hours.toString();
-  }
-  if(min < 10){
-    min = "0" + min.toString();
-  }
-  if(seconds < 10){
-    seconds = "0" + seconds.toString();
-  }
-  let time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + hours + ":"
-  + min +":" + seconds;
+  let time = date.toLocaleString();
   if(!input.value){
     alert('请输入内容')
     return;
@@ -210,6 +294,9 @@ onMounted(() => {
 <style lang="less" scope>
 .el-aside {
   width: 17%;
+  .el-menu-item{
+    border: solid #f5f5f5;
+  }
 }
 .image {
   width: 42px;
@@ -228,12 +315,19 @@ onMounted(() => {
   overflow: hidden;
   float: right;
   padding: 0px;
-  .content {
+  .icon{
+    height: 15px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    border-top: 0.5px solid #e0e0e0;
+    
+  }
+    .content {
     width: calc(100% - 40px);
     padding: 20px;
     overflow-y: scroll;
     flex: 1;
-  }
+   } 
   .content:hover::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
   }
@@ -361,9 +455,54 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
 }
+.nowOrder{
+  display: flex;
+  justify-content: center;
+}
 .avatarList img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
 }
+.el-aside{
+  border: solid #f5f5f5;
+  .userinfo{
+    display: flex;
+    justify-content: center;
+    .el-descriptions{
+      margin-top: 60px;
+      text-align:center;
+      width:150px
+  }
+  }
+  .tips{
+    margin-top: 50px;
+    .warntip{
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    }
+    .littleTip{
+      display: flex;
+      margin-top: 60px;
+      justify-content: center;
+    }
+  }
+  .button{
+    margin-top: 340px;
+    display: flex;
+    .confirm{
+      margin-left: 30px;
+      display: flex;
+    }
+    .cancel{
+      margin-left: 100%-50px;
+      display: flex;
+    }
+  }
+  
+  
+  
+}
+
 </style>

@@ -18,12 +18,14 @@
             class="avatar-uploader"
             action="api/user/upload"
             v-if="update"
+            accept=".jpg,.jpeg,.png"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          <el-icon v-else class="avatar-uploader-icon"><Plus />
+          </el-icon>
   </el-upload>
         </el-descriptions-item>
         <el-descriptions-item label="用户名"

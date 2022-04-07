@@ -58,3 +58,9 @@ export const addBOrder = (data) => axios("api/border/addOrder","post",data)
 export const selectBuyerOrder = (data) => axios("api/border/selectBuyerOrder", "post", data)
 //完成支付
 export const pay = (data) => axios("api/border/pay","post",data)
+//查询交易中的订单
+export const selectOrderByUser = (data)=> axios("api/border/selectOrderByUser","post",data)
+//确认订单完成
+export const confirm = (data)=> axios("api/border/confirm","post",data)
+//取消订单
+export const cancel = (data)=> axios("api/border/cancel","post",data)

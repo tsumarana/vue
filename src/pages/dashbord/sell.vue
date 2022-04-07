@@ -6,6 +6,7 @@
         <el-upload
           class="avatar-uploader"
           action="api/goods/upload"
+          accept=".jpg,.jpeg,.png"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
