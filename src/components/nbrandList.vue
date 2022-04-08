@@ -63,7 +63,7 @@ onMounted(() => {
   selectBrand();
 });
 </script>
-<style >
+<style lang='less' scoped>
 .el-card.is-always-shadow {
     width: 500px;
 }

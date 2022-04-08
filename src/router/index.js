@@ -16,6 +16,18 @@ const routes = [{
             import ('../pages/account/register.vue')
     },
     {
+        path: '/404',
+        name: "404",
+        component: () =>
+            import ('../router/views/404.vue')
+    },
+    // {
+    //     path: '/401',
+    //     name: "401",
+    //     component: () =>
+    //         import ('../router/views/401.vue')
+    // },
+    {
         pats: '/',
         component: () =>
             import ('../pages/index.vue'),
@@ -93,8 +105,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token")
-    if (to.name !== "login" && to.name !== "register" && !token && to.name !== "showBrand") {
-        next({ name: "login" })
+    if (to.name !== "login" && to.name !== "register" && !token && to.name !== "showBrand"&& to.name !=="404") {
+        next({ name: "404" })
     } else {
         next()
     }

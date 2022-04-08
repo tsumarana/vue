@@ -1,78 +1,77 @@
 <template>
   <el-container>
-    <el-header height="100px"></el-header>
-    <el-container>
-      <el-main line-height="100px"></el-main>
-      <el-aside width="500px" line-height="100px"> </el-aside>
-      <el-main line-height="100px"></el-main>
-    </el-container>
-
-    <el-container>
-      <el-main></el-main>
-      <el-aside width="500px">
+        <div class="login-box" >
+        <div class="login-logo">
+        <img src="../../assets/images/logo.png" width="80" />
+        <b class="tip">用户登录</b>
+        </div>
         <el-form
           :label-position="labelPosition"
           label-width="80px"
           :model="LoginData"
         >
-          <el-form-item label="账号">
+        
+          <el-form-item >
             <el-input
+            class="input"
+            size="large"
               v-model="LoginData.username"
               @keyup.enter="login"
-            ></el-input>
+            >
+            <template #prefix class="icon"><user-outlined type="user" /></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="密码">
+          <el-form-item >
             <el-input
+               class="input"
               v-model="LoginData.password"
               placeholder="请输入密码"
               id="password"
               show-password
+              size="large"
               @keyup.enter="login"
-            ></el-input>
+            >
+            <template #prefix class="icon"><lock-outlined type="user" /></template>
+            </el-input>
           </el-form-item>
 
-          <el-form-item label="验证码">
+          <el-form-item >
             <el-input
-              class="check"
+            size="large"
+               class="input"
               v-model="LoginData.checkCode"
-              id="check"
               name="checkCode"
               placeholder="请输入验证码"
+              
               @keyup.enter="login"
-            ></el-input>
-            <img
+            ><template #prefix class="icon"><SafetyOutlined /></template>
+            <template #suffix>
+             <img
               class="imgCheck"
               :src="imgSrc"
               id="imgCheck"
               @click="changeImg"
             />
-            <a @click="changeImg">看不清?换一个</a>
+            </template>
+            </el-input>
+           
+           
           </el-form-item>
-
-          <el-form-item>
-            <el-row>
-              <el-button type="primary" @click="login" @keyup.enter="login"
-                >登录</el-button
-              >
-              <el-button type="info" @click="$router.push('/register')"
-                >注册</el-button
-              >
-            </el-row>
-          </el-form-item>
-        </el-form>
-      </el-aside>
-      <el-main></el-main>
-    </el-container>
-    <el-container>
-      <el-footer height="280px">
-      </el-footer>
-    </el-container>
+        </el-form>  
+        <el-button type="primary" size="large" class="login" @keyup.enter="login" @click="login"
+        >登录</el-button>
+        <el-button type="info" size="large" class="register" @click="$router.push('/register')"
+        >注册
+        </el-button>
+        </div>
+      
   </el-container>
   
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
 import { onMounted, ref, reactive, getCurrentInstance } from "vue";
+import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons-vue';
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -125,3 +124,49 @@ onMounted(() => {
   changeImg();
 });
 </script>
+<style lang="less" scoped>
+.el-container{
+  background: url('../../assets/images/login.svg');
+  .login-box{
+    width: 580px;
+    margin-top: 12%;
+    margin-left: 35%;
+    border: solid #f5f5f5;
+    height: 450px;
+    .input{
+      width: 420px;
+    }
+  }
+  .login-logo{
+    margin-top: 30px;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    .tip{
+      font-size: 28px;
+    }
+  }
+  .anticon{
+    line-height: 3;
+  }
+  .imgCheck{
+    display: flex;
+    width: 90px;
+    height: 33px;
+    margin-top: 3px;
+  }
+  .login{
+    display: flex;
+    width: 420px;
+    margin-left: 80px;
+  }
+  .register{
+    margin-top: 10px;
+    display: flex;
+    width: 420px;
+    margin-left: 80px;
+  }
+}
+
+</style>

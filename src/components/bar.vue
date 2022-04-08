@@ -60,7 +60,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
 </script>
-<style lang="less" scope>
+<style lang="less" scoped>
 .interval {
   width: 1300px;
 }

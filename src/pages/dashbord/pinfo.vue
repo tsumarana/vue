@@ -29,8 +29,8 @@
   </el-upload>
         </el-descriptions-item>
         <el-descriptions-item label="用户名"
-          ><span v-if="!update">{{ user.username }}</span>
-          <input v-if="update" v-model="user.username" />
+          ><span >{{ user.username }}</span>
+          <!-- <input v-if="update" v-model="user.username" /> -->
         </el-descriptions-item>
 
         <el-descriptions-item label="手机号" :span="2"
@@ -69,16 +69,17 @@ const imageUrl = ref('')
 let update = ref(false);
 let show = ref("");
 let size = ref("");
+
 let user = ref({
   id: localStorage.getItem("id"),
-  img: "",
+  img: '',
   username: localStorage.getItem("username"),
   email: "",
   phone: "",
   idCard: "",
   name: "",
 });
-let img = ref("");
+let img = ref(localStorage.getItem("img"));
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
@@ -120,11 +121,10 @@ function alter() {
   
 }
 onMounted(() => {
-  console.log("onMounted");
   selectInfo();
 });
 </script>
-<style lang="less" scope>
+<style lang="less" scoped>
 .Form {
   margin-left: 10%;
   width: 500px;

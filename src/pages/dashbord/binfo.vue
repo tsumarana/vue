@@ -61,6 +61,7 @@
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
+import { ElMessage } from "element-plus";
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 const router = useRouter();
 const route = useRoute();
@@ -81,13 +82,18 @@ let info = ref({
 });
 const pay = ()=>{
   api.addBOrder(info.value).then((resp)=>{
-  
     router.push({ path: "/pay", query: { username: info.value.seller, id : resp.data.id } });
   })
    
 }
 const addTrolley = () =>{
-  api.addTrolley(info.value)
+  api.addTrolley(info.value).then((resp)=>{
+    if(resp.data == 'success'){
+      ElMessage.success("添加成功")
+    }else{
+      ElMessage.error("添加失败")
+    }
+  })
 }
 function selectBrandById(params) {
   api.selectBrandById(params).then((resp) => {
@@ -99,7 +105,7 @@ onMounted(() => {
   selectBrandById({ id: route.query.id });
 });
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .image {
   margin-top: 160px;
   margin-left: 30px;

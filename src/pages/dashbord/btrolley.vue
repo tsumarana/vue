@@ -46,9 +46,16 @@ let tableData = ref([{
   price:'',
   count:'',
   seller:'',
+  img:'',
 }])
 const pay = (row)=>{
-   router.push({ path: "/pay", query: { username: row.seller } });
+  api.selectBrandById({id:row.brandId}).then((resp)=>{
+    resp.data.username = localStorage.getItem("username")
+    api.addBOrder(resp.data).then((resp)=>{
+      router.push({ path: "/pay", query: {username: row.seller , id:resp.data.id } });
+  })
+  })
+  //  router.push({ path: "/pay", query: { username: row.seller , id : row.id} });
 }
 const decrease = (row)=>{
     if(row.count <= 1){

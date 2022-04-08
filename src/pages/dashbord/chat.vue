@@ -26,7 +26,7 @@
       <div class="nowOrder" v-if="activeFriend.username!=='admin'">当前订单{{brand.name}}</div>
       <div class="content chat-wrap" :ref="chat" >
         <div class="chat-window">
-          <div class="item" v-for="item in messageList" :key="item.id">
+          <div class="item" v-for="item in messageList.list" :key="item.id">
           <div  class="item item-left" v-if="item.fromName==activeFriend.username">
             <div class="avatar"><img :src = activeFriend.img ></div>
             <div class ="bubble">{{item.message}}</div>
@@ -140,13 +140,17 @@ let message = ref(
     time: "",
   },
 );
-let messageList = ref([{
-  id:"",
-  fromName:localStorage.getItem("username"),
-  toName:activeFriend.value.username,
-  message:"",
-  time:"",
-}])
+let  messageList = reactive({
+  list:[
+    {
+      id:"",
+      fromName:localStorage.getItem("username"),
+      toName:activeFriend.value.username,
+      message:"",
+      time:"",  
+    }
+  ]
+})
 let socket = ref(null);
 //初始化
 const init = () => {
@@ -176,23 +180,13 @@ function error() {
   console.log("连接错误");
 }
 
-function getMessage(msg) {
-  
-  console.log(msg.data);
-  var json = eval("(" + msg.data + ")");
-  console.log(user.value.username);
-  if (json.toName == user.value.username) {
-    console.log("success");
-    message.value.fromName = json.fromName;
-    message.value.toName = json.toName;
-    message.value.message = json.message;
-    message.value.time = json.time;
-    messageList.value.push(message)
-    console.log(messageList.value);
-  } else {
-    console.log("fail");
+function getMessage(data) {
+  const msg = JSON.parse(data.data)
+   if (msg.toName == user.value.username) {
+    messageList.list.push(msg)
+    scrollBottom()
+  } else { 
   }
-  console.log("getMeesage");
 }
 
 function close() {
@@ -207,6 +201,7 @@ const change = (item)=>{
 const selectOrderByUser = () => {
   brand.value.name = "";
   brand.value.id = "";
+  brandList.value = null;
   api.selectOrderByUser({buyer:localStorage.getItem("username"),seller:activeFriend.value.username}).then((resp) => {
   if(resp.data.length !== 0){
     brandList.value = resp.data;
@@ -247,6 +242,7 @@ const selectList = () => {
 };
 //选择好友
 const handleSelect = (key) => {
+  console.log(key);
   api.selectFriendByUsername({username:key}).then((resp)=>{
     activeFriend.value.username = key;
     message.value.toName = key;
@@ -274,15 +270,19 @@ const send = () => {
 input.value ="";
   
 };
-//获取消息列表
-function selectMessage(){
-  api.selectMessage(message.value).then((resp)=>{
-    messageList.value =resp.data;
-    nextTick(()=>{
+function scrollBottom(){
+   nextTick(()=>{
       const wrap = document.querySelectorAll('.chat-wrap')[0]
       const el = document.querySelectorAll('.chat-window')[0]
       wrap.scrollTop = el.offsetHeight
     })
+}
+//获取消息列表
+function selectMessage(){
+  console.log('selectMessage');
+  api.selectMessage(message.value).then((resp)=>{
+    messageList.list =resp.data;
+    scrollBottom()
     
   })
 }
@@ -297,7 +297,7 @@ onMounted(() => {
   selectMessage();
 });
 </script>
-<style lang="less" scope>
+<style lang="less" scoped>
 .el-aside {
   width: 17%;
   .el-menu-item{

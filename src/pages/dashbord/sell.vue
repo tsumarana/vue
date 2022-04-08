@@ -15,6 +15,7 @@
         <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
         </el-form-item>
+        
         <el-form-item label="标题">
           <el-input style="width: 300px" v-model="brand.title"></el-input>
         </el-form-item>
@@ -22,22 +23,47 @@
           <el-input style="width: 300px" v-model="brand.price"></el-input>
         </el-form-item>
         <el-form-item label="等级">
-          <el-input style="width: 300px" v-model="brand.grade"></el-input>
+          <el-select v-model="brand.grade" filterable placeholder="选择">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
         </el-form-item>
         <el-form-item label="类型">
-          <el-input style="width: 300px" v-model="brand.type"></el-input>
+          <el-select v-model="brand.type" filterable placeholder="选择">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
         </el-form-item>
         <el-form-item label="账号等级">
-          <el-input
-            style="width: 300px"
-            v-model="brand.accountGrade"
-          ></el-input>
+          <el-select v-model="brand.accountGrade" filterable placeholder="选择">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
         </el-form-item>
         <el-form-item label="皮肤">
           <el-input style="width: 300px" v-model="brand.decorate"></el-input>
         </el-form-item>
         <el-form-item label="段位">
-          <el-input style="width: 300px" v-model="brand.rank"></el-input>
+          <el-select v-model="brand.rank" filterable placeholder="选择">
+          <el-option
+            v-for="item in options3"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
         </el-form-item>
         <el-form-item label="是否成年">
           <el-switch v-model="brand.adult"></el-switch>
@@ -59,7 +85,169 @@ import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
-
+const value = ref('')
+const options1 = [
+  {
+    value: '1',
+    label: '1',
+  },
+  {
+    value: '2',
+    label: '2',
+  },
+  {
+    value: '3',
+    label: '3',
+  },
+  {
+    value: '4',
+    label: '4',
+  },
+  {
+    value: '5',
+    label: '5',
+  },
+  {
+    value: '6',
+    label: '6',
+  },
+  {
+    value: '7',
+    label: '7',
+  },
+  {
+    value: '8',
+    label: '8',
+  },
+  {
+    value: '9',
+    label: '9',
+  },
+  {
+    value: '10',
+    label: '10',
+  },
+  {
+    value: '11',
+    label: '11',
+  },
+  {
+    value: '12',
+    label: '12',
+  },
+  {
+    value: '13',
+    label: '13',
+  },
+  {
+    value: '14',
+    label: '14',
+  },
+  {
+    value: '15',
+    label: '15',
+  },
+  {
+    value: '16',
+    label: '16',
+  },
+  {
+    value: '17',
+    label: '17',
+  },
+  {
+    value: '18',
+    label: '18',
+  },
+  {
+    value: '19',
+    label: '19',
+  },
+  {
+    value: '20',
+    label: '20',
+  },
+  {
+    value: '21',
+    label: '21',
+  },
+  {
+    value: '22',
+    label: '22',
+  },
+  {
+    value: '23',
+    label: '23',
+  },
+  {
+    value: '24',
+    label: '24',
+  },
+  {
+    value: '25',
+    label: '25',
+  },
+  {
+    value: '26',
+    label: '26',
+  },
+  {
+    value: '27',
+    label: '27',
+  },
+  {
+    value: '28',
+    label: '28',
+  },
+  {
+    value: '29',
+    label: '29',
+  },
+  {
+    value: '30',
+    label: '30',
+  },
+]
+const options2 = [
+  {
+    value:'账号',
+    label:'账号',
+  }
+  ,{
+    value:'其他',
+    lable:'其他',
+  }
+  ]
+  const options3 = [
+  {
+    value:'青铜',
+    label:'青铜',
+  }
+  ,{
+    value:'白银',
+    lable:'白银',
+  },
+  {
+    value:'黄金',
+    lable:'黄金',
+  },
+  {
+    value:'铂金',
+    lable:'铂金',
+  },
+  {
+    value:'钻石',
+    lable:'钻石',
+  },
+  {
+    value:'大师',
+    lable:'大师',
+  },
+  {
+    value:'王者',
+    lable:'王者',
+  },
+  ]
 let imageUrl = ref("")
 let brand = reactive({
   title: "",
