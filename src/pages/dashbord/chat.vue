@@ -1,8 +1,5 @@
 <template>
-  <bar />
   <el-container>
-    <el-aside
-      >
       <div class="friendList">
         <el-row class="tac">
           <el-col :span="24">
@@ -19,10 +16,9 @@
             </el-menu>
           </el-col>
         </el-row>
-      </div></el-aside
-    >
-    <el-main
-      >
+      </div>
+
+    <div class="center">
       <div class="nowOrder" v-if="activeFriend.username!=='admin'">当前订单{{brand.name}}</div>
       <div class="content chat-wrap" :ref="chat" >
         <div class="chat-window">
@@ -36,8 +32,7 @@
             <div class="avatar"><img :src = user.img ></div>
           </div>
         </div>
-        </div>
-      </div>
+        </div></div>
 
       <div class="icon" v-if="activeFriend.username=='admin'">
         <el-upload
@@ -49,10 +44,10 @@
         :on-success="handleAvatarSuccess"
         :auto-upload="true"
         >
-    <el-icon  >
-            <upload />
-    </el-icon>
-    </el-upload>
+      <el-icon  >
+              <upload />
+      </el-icon>
+      </el-upload>
          
         </div>
       <div class="input-area">
@@ -61,31 +56,34 @@
         <div class="button-area">
           <button id="send-btn" @click="send">发 送</button>
         </div>
-      </div></el-main
-    >
-    <el-aside>
-      <div class="userinfo">
-        <el-descriptions title="" column="1">
-          <el-descriptions-item label="用户:" v-if="activeFriend.username=='admin'">管理员</el-descriptions-item>
-          <el-descriptions-item label="用户:" v-if="activeFriend.username !=='admin'">{{activeFriend.username}}</el-descriptions-item>
-          <el-descriptions-item label="卖家信誉:" v-if="activeFriend.username!=='admin'">新用户</el-descriptions-item>
-          <el-descriptions-item label="成交订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.success}}</el-descriptions-item>
-          <el-descriptions-item label="取消订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.fail}}</el-descriptions-item>
-          <el-descriptions-item label="成交概率:" v-if="activeFriend.username!=='admin'">{{activeFriend.success/(Number(activeFriend.success)+Number(activeFriend.fail))}}</el-descriptions-item>
-        </el-descriptions>
       </div>
-      <div v-for="item in brandList"  :key="item.name"  >
+
+    </div>
+
+      <div class="right">
+        <div class="userinfo">
+          <el-descriptions title="" column="1">
+            <el-descriptions-item label="用户:" v-if="activeFriend.username=='admin'">管理员</el-descriptions-item>
+            <el-descriptions-item label="用户:" v-if="activeFriend.username !=='admin'">{{activeFriend.username}}</el-descriptions-item>
+            <el-descriptions-item label="卖家信誉:" v-if="activeFriend.username!=='admin'">新用户</el-descriptions-item>
+            <el-descriptions-item label="成交订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.success}}</el-descriptions-item>
+            <el-descriptions-item label="取消订单:" v-if="activeFriend.username!=='admin'">{{activeFriend.fail}}</el-descriptions-item>
+            <el-descriptions-item label="成交概率:" v-if="activeFriend.username!=='admin'">{{activeFriend.success/(Number(activeFriend.success)+Number(activeFriend.fail))}}</el-descriptions-item>
+          </el-descriptions>
+        </div>
+        <div v-for="item in brandList"  :key="item.name"  >
         <el-link type="primary" @click="change(item)" >{{item.name}}</el-link>
-      </div>
-      <div class="tips" v-if="activeFriend.username!=='admin'">
+        </div>
+        <div class="tips" v-if="activeFriend.username!=='admin'">
         <p class="warntip">温馨提示</p>
-        <span class="littleTip">请在监护先进行购买</span>
-      </div>
-      <div class="button" v-if="activeFriend.username!=='admin'">
+        <span class="littleTip">未成年人请在监护下进行购买</span>
+        </div>
+        <div class="button" v-if="activeFriend.username!=='admin'">
         <el-button class="confirm" @click="confirm">确认</el-button>
         <el-button class="cancel" @click="cancel">取消</el-button>
       </div>
-    </el-aside>
+    </div>
+
   </el-container>
 </template>
 <script  setup>
@@ -298,87 +296,10 @@ onMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-.el-aside {
-  width: 17%;
-  .el-menu-item{
-    border: solid #f5f5f5;
-  }
+.el-container{
+  background: url('../../assets/images/login.svg');
 }
-.image {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-}
-.el-main {
-  height: 760px;
-  width: 900px;
-  border-radius: 4px;
-  border: 0.5px solid #e0e0e0;
-  background-color: #f5f5f5;
-  margin-left: 0px;
-  display: flex;
-  flex-flow: column;
-  overflow: hidden;
-  float: right;
-  padding: 0px;
-  .icon{
-    height: 15px;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    border-top: 0.5px solid #e0e0e0;
-    
-  }
-    .content {
-    width: calc(100% - 40px);
-    padding: 20px;
-    overflow-y: scroll;
-    flex: 1;
-   } 
-  .content:hover::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.1);
-  }
-  .input-area {
-    border-top: 0.5px solid #e0e0e0;
-    height: 150px;
-    display: flex;
-    flex-flow: column;
-    background-color: #fff;
-  }
-  textarea {
-    flex: 1;
-    padding: 5px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    overflow-y: auto;
-    overflow-x: hidden;
-    outline: none;
-    resize: none;
-  }
 
-  .button-area {
-    display: flex;
-    height: 40px;
-    margin-right: 10px;
-    line-height: 40px;
-    padding: 5px;
-    justify-content: flex-end;
-  }
-
-  .button-area button {
-    width: 80px;
-    border: none;
-    outline: none;
-    border-radius: 4px;
-    float: right;
-    cursor: pointer;
-  }
-
-  /* 设置滚动条的样式 */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-}
 .bubble {
   max-width: 400px;
   padding: 10px;
@@ -470,24 +391,114 @@ onMounted(() => {
   height: 45px;
   border-radius: 50%;
 }
-.el-aside{
-  border: solid #f5f5f5;
+.friendList  {
+  display: flex;
+  width: 300px;
+  height: 100%;
+  
+  .el-menu-item{
+    border: solid rgba(244, 226, 226, 0.2);
+    width: 300px
+  }
+  
+}
+.image {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+.center {
+  height: 795px;
+  width: 1200px;
+  border-radius: 4px;
+  border: 0.5px solid #e0e0e0;
+  background-color: rgba(249, 242, 242, 0.6);
+  margin-left: 0px;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  float: right;
+  padding: 0px;
+  .icon{
+    height: 15px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    border-top: 0.5px solid #e0e0e0;
+    
+  }
+    .content {
+    width: calc(100% - 40px);
+    padding: 20px;
+    overflow-y: scroll;
+    flex: 1;
+   } 
+  .content:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .input-area {
+    border-top: 0.5px solid #e0e0e0;
+    height: 150px;
+    display: flex;
+    flex-flow: column;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  textarea {
+    flex: 1;
+    padding: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: none;
+    resize: none;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .button-area {
+    display: flex;
+    height: 40px;
+    margin-right: 10px;
+    line-height: 40px;
+    padding: 5px;
+    justify-content: flex-end;
+  }
+
+  .button-area button {
+    width: 80px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    float: right;
+    cursor: pointer;
+  }
+
+  /* 设置滚动条的样式 */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+}
+.right {
+  text-align: center;
+  height: 100%;
   .userinfo{
     display: flex;
     justify-content: center;
     .el-descriptions{
+      display: flex;
       margin-top: 60px;
       text-align:center;
-      width:150px
+      justify-content: center;
+      width:300px
   }
   }
   .tips{
     margin-top: 50px;
     .warntip{
-    font-size: 36px;
-    display: flex;
-    justify-content: center;
-    }
+      font-size: 36px;
+      display: flex;
+      justify-content: center;
+      }
     .littleTip{
       display: flex;
       margin-top: 60px;
@@ -505,10 +516,7 @@ onMounted(() => {
       margin-left: 100%-50px;
       display: flex;
     }
-  }
-  
-  
-  
+  }  
 }
 
 </style>

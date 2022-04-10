@@ -1,4 +1,4 @@
-<template>
+<template >
   <el-container>
     <el-main>
       <brandList />
@@ -15,3 +15,11 @@ const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 
 </script>
+<style lang="less" scoped>
+  .el-container{
+    
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/images/login.svg');
+}
+</style>

@@ -17,13 +17,13 @@
         </el-form-item>
         
         <el-form-item label="标题">
-          <el-input style="width: 300px" v-model="brand.title"></el-input>
+          <el-input  v-model="brand.title" size="large"></el-input>
         </el-form-item>
         <el-form-item label="价格">
-          <el-input style="width: 300px" v-model="brand.price"></el-input>
+          <el-input  v-model="brand.price" size="large"></el-input>
         </el-form-item>
         <el-form-item label="等级">
-          <el-select v-model="brand.grade" filterable placeholder="选择">
+          <el-select v-model="brand.grade" size="large" class="select" filterable placeholder="选择">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -33,7 +33,7 @@
         </el-select>
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="brand.type" filterable placeholder="选择">
+          <el-select v-model="brand.type"  class="select" size="large" filterable placeholder="选择">
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -43,7 +43,7 @@
         </el-select>
         </el-form-item>
         <el-form-item label="账号等级">
-          <el-select v-model="brand.accountGrade" filterable placeholder="选择">
+          <el-select v-model="brand.accountGrade"  class="select" size="large" filterable placeholder="选择">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -53,10 +53,10 @@
         </el-select>
         </el-form-item>
         <el-form-item label="皮肤">
-          <el-input style="width: 300px" v-model="brand.decorate"></el-input>
+          <el-input  v-model="brand.decorate" size="large"></el-input>
         </el-form-item>
         <el-form-item label="段位">
-          <el-select v-model="brand.rank" filterable placeholder="选择">
+          <el-select v-model="brand.rank" filterable class="select" placeholder="选择" size="large">
           <el-option
             v-for="item in options3"
             :key="item.value"
@@ -69,8 +69,8 @@
           <el-switch v-model="brand.adult"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addGoods">上架</el-button>
-          <el-button @click="$router.push('/showbrand')">取消</el-button>
+          <el-button type="primary" @click="addGoods" size="large">上架</el-button>
+          <el-button @click="$router.push('/showbrand')" size="large">取消</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -319,5 +319,11 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   width: 178px;
   height: 140px;
   text-align: center;
+}
+.el-input {
+  width: 300px;
+}
+.select{
+  width: 300px;
 }
 </style>

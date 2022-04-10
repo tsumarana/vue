@@ -3,8 +3,8 @@
     :default-active="activeIndex"
     class="el-menu-demo"
     mode="horizontal"
-    background-color="#545c64"
-    text-color="#fff"
+    background-color="E4E7ED"
+    text-color="#000"
     active-text-color="#ffd04b"
     @select="handleSelect"
   >

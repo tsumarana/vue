@@ -1,9 +1,9 @@
 <template>
   <el-container>
-    <el-header></el-header>
-    <el-container>
-      <el-main></el-main>
-      <el-aside width="500px">
+        <div class="form-box">
+        <div class='register'>
+        <b class="tip">用户注册</b>
+        </div>
         <el-form
           :label-position="labelPosition"
           label-width="100px"
@@ -11,90 +11,110 @@
           :rules="rules"
           ref="ruleFormRef"
         >
-          <el-form-item label="用户名" prop="username">
+          <el-form-item  prop="username">
+            
             <el-input
+             size="large"
               v-model="userData.username"
               placeholder="请输入用户名6-20位"
-            ></el-input>
+            >
+            <template #prefix>
+              <el-icon><user /></el-icon>
+            </template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item  prop="password">
             <el-input
+            size="large"
               v-model="userData.password"
               placeholder="请输入密码8-26位"
               show-password
-            ></el-input>
+            ><template #prefix><el-icon><lock /></el-icon></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="rePassword">
+          <el-form-item  prop="rePassword">
             <el-input
+            size="large"
               v-model="userData.rePassword"
               placeholder="确认密码"
               ref="rePassword"
               show-password
-            ></el-input>
+            ><template #prefix><el-icon><lock /></el-icon></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item  prop="email">
             <el-input
+            size="large"
               v-model="userData.email"
               placeholder="请输入邮箱"
               ref="email"
             ></el-input>
           </el-form-item>
-          <el-form-item label="电话号码" prop="phone">
+          <el-form-item  prop="phone">
             <el-input
+            size="large"
               v-model="userData.phone"
               placeholder="请输入电话号码"
               ref="phone"
-            ></el-input>
+            ><template #prefix><el-icon><iphone /></el-icon></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="身份证" prop="idCard">
+          <el-form-item  prop="idCard">
             <el-input
+            size="large"
               v-model="userData.idCard"
               placeholder="请输入身份证"
               ref="idCard"
-            ></el-input>
+            ><template #prefix><el-icon><postcard /></el-icon></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="姓名" prop="name">
+          <el-form-item  prop="name">
             <el-input
+            size="large"
               v-model="userData.name"
               placeholder="请输入真实姓名"
               ref="name"
-            ></el-input>
+            ><template #prefix><el-icon><user-filled /></el-icon></template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="验证码">
+          <el-form-item >
             <el-input
+            size="large"
               class="check"
               v-model="userData.check"
               name="checkCode"
               placeholder="请输入验证码"
-            ></el-input>
+            ><template #prefix><el-icon><key /></el-icon></template>
+            <template #suffix>
             <img
               class="imgCheck"
               :src="imgSrc"
               id="imgCheck"
               @click="changeImg"
             />
-            <a @click="changeImg">看不清?换一个</a>
+            </template>
+            </el-input>
+            
           </el-form-item>
-          <el-form-item>
-            <el-row>
-              <el-button type="primary" @click="submit(ruleFormRef)"
+          
+            
+        </el-form>
+        <div class="button">
+              <el-button type="primary" size="large" class="register1" @click="submit(ruleFormRef)"
                 >注册</el-button
               >
-              <el-button type="primary" @click="$router.push('/login')"
+              <el-button  class="login" size="large" @click="$router.push('/login')"
                 >已有账号，登录</el-button
               >
-            </el-row>
-          </el-form-item>
-        </el-form>
-      </el-aside>
-      <el-main></el-main>
+        </div>
+        </div>
     </el-container>
-  </el-container>
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
+import { User,Lock,Phone,Postcard,UserFilled,Iphone,Key} from '@element-plus/icons-vue'
 const router = useRouter();
 const route = useRoute();
 import { onMounted, ref, reactive, getCurrentInstance } from "vue";
@@ -216,7 +236,7 @@ const rules = reactive({
 });
 //注册
 function register() {
-  api.register(userData).then((res) => {
+  api.register(userData).then((resp) => {
     if (resp.data == "success") {
       $message.success("创建成功");
     } else {
@@ -233,11 +253,6 @@ const submit = (formEl) => {
   formEl.validate((valid) => {
     if (valid) {
       api.register(userData).then((resp) => {
-        if(resp.data == "checkError"){
-          ElMessage.error("验证码错误");
-          changeImg();
-          return;
-        }
         if (resp.data == "success") {
           ElMessage({
             message: "注册成功",
@@ -269,3 +284,45 @@ onMounted(() => {
   changeImg();
 });
 </script>
+<style lang="less" scoped>
+  .el-container{
+    background: url('../../assets/images/login/register.jpg');
+    width: 100%;
+    height: 100%;
+    .form-box{
+      width: 600px;
+      height: 650px;
+      background-color: rgba(255,255,255,0.8);
+      .register{
+      margin-bottom: 30px;
+        .tip{
+          font-size: 28px;
+        }
+      }
+      border: solid #f5f5f5;
+      justify-items: center;
+      justify-content: center;
+      margin-left: 35%;
+      margin-top: 8%;
+      .el-input{
+        width: 430px;
+        .el-icon {
+        height: 39px;
+       
+      }
+      }
+      .login{
+    display: flex;
+    width: 430px;
+    margin-left: 97px;
+    margin-top: 10px;
+  }
+  .register1{
+    
+    display: flex;
+    width: 430px;
+    margin-left: 97px;
+  }
+    }
+  }
+</style>

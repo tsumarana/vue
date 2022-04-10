@@ -11,12 +11,6 @@
   </div>
 </template>
 
-<script >
-  import { defineComponent } from 'vue';
-  export default defineComponent({
-    name: 'NotFound',
-  });
-</script>
 
 <style lang="less" scoped>
   .page-container {

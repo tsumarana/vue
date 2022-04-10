@@ -64,9 +64,7 @@
         >注册
         </el-button>
         </div>
-      
   </el-container>
-  
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
@@ -126,15 +124,21 @@ onMounted(() => {
 </script>
 <style lang="less" scoped>
 .el-container{
-  background: url('../../assets/images/login.svg');
+  background: url('../../assets/images/login/bg.jpg');
+  //  background: url('../../assets/images/test.jpg');
+   width: 100%;
+   height: 100%;
   .login-box{
     width: 580px;
     margin-top: 12%;
     margin-left: 35%;
     border: solid #f5f5f5;
     height: 450px;
+    background-color: rgba(236, 232, 232,0.4);
+    
     .input{
       width: 420px;
+      opacity: 100%;
     }
   }
   .login-logo{
