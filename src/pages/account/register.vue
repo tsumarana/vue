@@ -12,7 +12,6 @@
           ref="ruleFormRef"
         >
           <el-form-item  prop="username">
-            
             <el-input
              size="large"
               v-model="userData.username"
@@ -143,7 +142,7 @@ const userNameBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 const passwordBlur = (rule, value, callback) => {
   if (!value) {
@@ -156,7 +155,7 @@ const passwordBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 const rePasswordBlur = (rule, value, callback) => {
   if (value === "") {
@@ -182,7 +181,7 @@ const emailBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 const phoneBlur = (rule, value, callback) => {
   if (!value) {
@@ -195,7 +194,7 @@ const phoneBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 const idCardBlur = (rule, value, callback) => {
   if (!value) {
@@ -208,7 +207,7 @@ const idCardBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 const nameBlur = (rule, value, callback) => {
   if (!value) {
@@ -221,7 +220,7 @@ const nameBlur = (rule, value, callback) => {
     } else {
       callback(new Error("please input by rule"));
     }
-  }, 1000);
+  }, 100);
 };
 
 //规则
@@ -235,37 +234,27 @@ const rules = reactive({
   name: [{ validator: nameBlur, trigger: "blur" }],
 });
 //注册
-function register() {
-  api.register(userData).then((resp) => {
-    if (resp.data == "success") {
-      $message.success("创建成功");
-    } else {
-      $message.error("注册失败");
-    }
-  });
-}
-
 const ruleFormRef = ref();
 //提交
 const submit = (formEl) => {
-  console.log(formEl);
   if (!formEl) return;
   formEl.validate((valid) => {
+    console.log(valid);
     if (valid) {
       api.register(userData).then((resp) => {
+        if(resp.data == "checkError"){
+          ElMessage.error("验证码错误");
+          return;
+        }
         if (resp.data == "success") {
-          ElMessage({
-            message: "注册成功",
-            type: "success",
-          });
+          ElMessage.success("注册成功")
           setTimeout(router.push("/login"), "2000");
         } else {
           ElMessage.error("注册失败");
         }
       });
     } else {
-      console.log("error submit!");
-      return false;
+      ElMessage.warning("请按规则提交");
     }
   });
 };
@@ -273,7 +262,6 @@ const submit = (formEl) => {
 function changeImg() {
   console.log("changeImg");
   api.getVerImg().then((res) => {
-    console.log("changeImg", res);
     imgSrc.value = res.data.op;
     userData.check = res.data.verifyCode;
   });

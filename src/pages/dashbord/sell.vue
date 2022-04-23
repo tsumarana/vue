@@ -1,8 +1,13 @@
 <template>
-  <el-container>
-    <el-main>
-      <el-form ref="form" :model="brand" label-width="80px" class="addForm">
-        <el-form-item label="图片">
+    <div class="sell-form">
+      <el-form 
+      ref="ruleFormRef"
+      :model="brand" 
+      label-width="80px" 
+      class="addForm" 
+      :rules="rules"
+      >
+        <el-form-item label="图片" prop="img">
         <el-upload
           class="avatar-uploader"
           action="api/goods/upload"
@@ -15,14 +20,13 @@
         <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
         </el-form-item>
-        
-        <el-form-item label="标题">
+        <el-form-item label="标题" prop="title">
           <el-input  v-model="brand.title" size="large"></el-input>
         </el-form-item>
-        <el-form-item label="价格">
+        <el-form-item label="价格" prop="price">
           <el-input  v-model="brand.price" size="large"></el-input>
         </el-form-item>
-        <el-form-item label="等级">
+        <el-form-item label="等级" prop="grade">
           <el-select v-model="brand.grade" size="large" class="select" filterable placeholder="选择">
           <el-option
             v-for="item in options1"
@@ -32,7 +36,7 @@
             />
         </el-select>
         </el-form-item>
-        <el-form-item label="类型">
+        <el-form-item label="类型" prop="type">
           <el-select v-model="brand.type"  class="select" size="large" filterable placeholder="选择">
           <el-option
             v-for="item in options2"
@@ -42,7 +46,7 @@
             />
         </el-select>
         </el-form-item>
-        <el-form-item label="账号等级">
+        <el-form-item label="账号等级" prop="accountGrade">
           <el-select v-model="brand.accountGrade"  class="select" size="large" filterable placeholder="选择">
           <el-option
             v-for="item in options1"
@@ -52,10 +56,10 @@
             />
         </el-select>
         </el-form-item>
-        <el-form-item label="皮肤">
+        <el-form-item label="皮肤" prop="decorate">
           <el-input  v-model="brand.decorate" size="large"></el-input>
         </el-form-item>
-        <el-form-item label="段位">
+        <el-form-item label="段位" prop="rank">
           <el-select v-model="brand.rank" filterable class="select" placeholder="选择" size="large">
           <el-option
             v-for="item in options3"
@@ -65,20 +69,20 @@
             />
         </el-select>
         </el-form-item>
-        <el-form-item label="是否成年">
+        <el-form-item label="是否成年" prop="adult" class="adult">
           <el-switch v-model="brand.adult"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addGoods" size="large">上架</el-button>
+          <el-button type="primary" @click="addGoods(ruleFormRef)" size="large">上架</el-button>
           <el-button @click="$router.push('/showbrand')" size="large">取消</el-button>
         </el-form-item>
       </el-form>
-    </el-main>
-  </el-container>
+    </div>
 </template>
 <script lang=ts setup>
 import { ElMessage } from "element-plus";
 import { ref, reactive, getCurrentInstance } from "vue";
+import type { FormInstance } from 'element-plus'
 import { useRouter } from "vue-router";
 import { Plus } from '@element-plus/icons-vue'
 
@@ -86,6 +90,75 @@ import type { UploadProps } from 'element-plus'
 const router = useRouter();
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
 const value = ref('')
+
+
+const titleBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  callback()
+}
+const priceBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  setTimeout(() => {
+    let reg = /^[0-9]{1,6}$/;
+    if (reg.test(value)) {
+      callback();
+    } else {
+      callback(new Error("请按要求输入"));
+    }
+  }, 0);
+  callback()
+}
+const decorateBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  setTimeout(() => {
+    let reg = /^[0-9]{0,3}$/;
+    if (reg.test(value)) {
+      callback();
+    } else {
+      callback(new Error("请按要求输入"));
+    }
+  }, 0);
+  callback()
+}
+const gradeBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  callback()
+}
+const typeBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  callback()
+}
+const accountGradeBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  callback()
+}
+const rankBlur = (rule, value, callback)=>{
+   if (!value) {
+    return callback(new Error("不能为空"));
+  }
+  callback()
+}
+const rules = reactive({
+  title: [{ validator: titleBlur, trigger: "blur" }],
+  price: [{ validator: priceBlur, trigger: "blur" }],
+  decorate: [{ validator: decorateBlur, trigger: "blur" }],
+  grade: [{ validator: gradeBlur, trigger: "blur" }],
+  type: [{ validator: typeBlur, trigger: "blur" }],
+  accountGrade: [{ validator: accountGradeBlur, trigger: "blur" }],
+  rank: [{ validator: rankBlur, trigger: "blur" }],
+});
 const options1 = [
   {
     value: '1',
@@ -248,6 +321,7 @@ const options2 = [
     lable:'王者',
   },
   ]
+const ruleFormRef = ref()
 let imageUrl = ref("")
 let brand = reactive({
   title: "",
@@ -261,17 +335,22 @@ let brand = reactive({
   seller: localStorage.getItem("username"),
   img:"",
 });
-const addGoods = () => {
-  brand.img = imageUrl.value;
-  api.addBrand(brand).then((resp) => {
-    if (resp.data == "success") {
-      ElMessage({
-        message: "上架成功",
-        type: "success",
+const addGoods = (formEl) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+      brand.img = imageUrl.value;
+      api.addBrand(brand).then((resp) => {
+          if (resp.data == "success") {
+            ElMessage({
+              message: "上架成功",
+              type: "success",
+            });
+            router.push("/showbrand");
+          }
       });
-      router.push("/showbrand");
     }
-  });
+  })
 };
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
@@ -292,21 +371,31 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 }
 </script>
 <style lang="less" scoped>
-.addForm {
-  margin-left: 700px;
-  margin-top: 50px;
+.sell-form{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .addForm{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    // margin-left: 40%;
+    // align-items: center;
+    position:absolute;
+    left: 40%;
+  }
 }
 .avatar{
   width: 300px;
-  height: 300px;
+  height: 200px;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
-  transition: var(--el-transition-duration-fast);
 }
 
 .avatar-uploader .el-upload:hover {
@@ -316,9 +405,10 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 140px;
+  width: 300px;
+  height: 200px;
   text-align: center;
+  border: 2px solid #d9d9d9;
 }
 .el-input {
   width: 300px;

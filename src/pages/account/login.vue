@@ -39,8 +39,8 @@
             <el-input
             size="large"
                class="input"
-              v-model="LoginData.checkCode"
-              name="checkCode"
+              v-model="LoginData.check"
+              name="check"
               placeholder="请输入验证码"
               
               @keyup.enter="login"
@@ -83,13 +83,13 @@ let LoginData = reactive({
   idCard: "",
   name: "",
   vip: "",
-  checkCode: "",
+  check: "",
 });
 let imgSrc = ref("");
 
 function login() {
   api.login(LoginData).then((resp) => {
-    if(resp.data == "checkError"){
+    if(resp.data.status == "checkError"){
       ElMessage.error("验证码错误");
       changeImg();
       return;
@@ -114,7 +114,7 @@ function changeImg() {
   api.getVerImg().then((resp) => {
     console.log("changeImg", resp);
     imgSrc.value = resp.data.op;
-    LoginData.checkCode = resp.data.verifyCode;
+    LoginData.check = resp.data.verifyCode;
   });
 }
 onMounted(() => {

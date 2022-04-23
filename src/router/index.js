@@ -103,12 +103,12 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem("token")
-    if (to.name !== "login" && to.name !== "register" && !token && to.name !== "showBrand" && to.name !== "404" && to.name !== "401") {
-        next({ name: "401" })
-    } else {
-        next()
-    }
-})
+// router.beforeEach((to, from, next) => {
+//     const token = localStorage.getItem("token")
+//     if (to.name !== "login" && to.name !== "register" && !token && to.name !== "showBrand" && to.name !== "404" && to.name !== "401") {
+//         next({ name: "401" })
+//     } else {
+//         next()
+//     }
+// })
 export default router

@@ -1,29 +1,31 @@
 <template>
-  <query @additionChange="additionChange" />
-  <el-row class="brandCard">
-    <el-col
-       v-for="(item) in tableData"
-      :key="item"
-      :span="6"
-       :offset=1
-    >
-      <el-card :body-style="{ padding: '0px' }">
-        <img
-          :src="item.img" 
-          class="image"
-        />
-        <div style="padding: 14px">
-          <span>{{item.title}}</span>
-          
-          <div class="bottom">
-            <span>价格:{{item.price}}</span>
-            <el-button type="text" class="button" @click="test(item.id)">查看商品详情</el-button>
+  
+  <div class="box">
+    <query @additionChange="additionChange" />
+    <el-row class="brandCard">
+      <el-col
+        v-for="(item) in tableData"
+        :key="item"
+        :span="6"
+        :offset=1
+        class="card"
+      >
+        <el-card class="brand-card">
+          <img
+            :src="item.img" 
+            class="image"
+          />
+          <div>
+            <span class="brand-title">{{item.title}}</span>
+            <div class="bottom">
+              <span class="price">价格:{{item.price}}</span>
+              <el-button type="text" class="button" @click="test(item.id)">查看商品详情</el-button>
+            </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-
-  </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script setup>
 import query from "../components/query.vue";
@@ -64,29 +66,41 @@ onMounted(() => {
 });
 </script>
 <style lang='less' scoped>
-.el-card.is-always-shadow {
-    width: 500px;
-}
-.brandCard{
+.box{
   width: 100%;
   height: 100%;
 }
-.bottom {
-  margin-top: 12px;
-  line-height: 0px;
+.brandCard{
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+ 
+  .card{
+    display: flex;
+    margin-top: 10px;
+    .brand-card{
+      width: 100%;
+      margin: 10px 10px;
+    }
+    .image {
+      width: 100%;
+      height: 300px;
+      display: flex;
+      flex: 1;
+    }
+    
+    .bottom {
+      height: 20px;
+      margin-top: 12px;
+      line-height: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap:nowrap;
+      .price{
+        display: flex;
+        justify-content:center
+      }
 }
-
-.button {
-  padding: 0;
-  min-height: auto;
-}
-
-.image {
-  width: 500px;
-  height: 280px;
-  display: block;
+  }
 }
 </style>

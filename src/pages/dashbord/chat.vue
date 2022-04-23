@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div class="chat">
       <div class="friendList">
         <el-row class="tac">
           <el-col :span="24">
@@ -22,14 +22,14 @@
       <div class="nowOrder" v-if="activeFriend.username!=='admin'">当前订单{{brand.name}}</div>
       <div class="content chat-wrap" :ref="chat" >
         <div class="chat-window">
-          <div class="item" v-for="item in messageList.list" :key="item.id">
-          <div  class="item item-left" v-if="item.fromName==activeFriend.username">
-            <div class="avatar"><img :src = activeFriend.img ></div>
-            <div class ="bubble">{{item.message}}</div>
-          </div>
-          <div  class="item item-right" v-if="item.fromName==user.username" >
-            <div class ="bubble">{{item.message}}</div>
-            <div class="avatar"><img :src = user.img ></div>
+            <div class="item" v-for="item in messageList.list" :key="item.id">
+            <div  class="item item-left" v-if="item.fromName==activeFriend.username">
+              <div class="avatar"><img :src = activeFriend.img ></div>
+              <div class ="bubble">{{item.message}}</div>
+            </div>
+            <div  class="item item-right" v-if="item.fromName==user.username" >
+              <div class ="bubble">{{item.message}}</div>
+              <div class="avatar"><img :src = user.img ></div>
           </div>
         </div>
         </div></div>
@@ -44,7 +44,7 @@
         :on-success="handleAvatarSuccess"
         :auto-upload="true"
         >
-      <el-icon  >
+      <el-icon :size="18" >
               <upload />
       </el-icon>
       </el-upload>
@@ -79,12 +79,12 @@
         <span class="littleTip">未成年人请在监护下进行购买</span>
         </div>
         <div class="button" v-if="activeFriend.username!=='admin'">
-        <el-button class="confirm" @click="confirm">确认</el-button>
-        <el-button class="cancel" @click="cancel">取消</el-button>
+        <el-button class="confirm" size="large" @click="confirm">确认</el-button>
+        <el-button class="cancel" size="large" @click="cancel">取消</el-button>
       </div>
     </div>
 
-  </el-container>
+  </div>
 </template>
 <script  setup>
 import { onMounted, ref, reactive, getCurrentInstance ,onBeforeUnmount,nextTick} from "vue";
@@ -254,7 +254,6 @@ const send = () => {
   let date = new Date();
   let time = date.toLocaleString();
   if(!input.value){
-    alert('请输入内容')
     return;
   }
   message.value.fromName = user.value.username;
@@ -266,15 +265,17 @@ const send = () => {
     selectMessage();
   } )
 input.value ="";
-  
 };
+
 function scrollBottom(){
-   nextTick(()=>{
+  //渲染后
+  nextTick(()=>{
       const wrap = document.querySelectorAll('.chat-wrap')[0]
       const el = document.querySelectorAll('.chat-window')[0]
       wrap.scrollTop = el.offsetHeight
     })
 }
+
 //获取消息列表
 function selectMessage(){
   console.log('selectMessage');
@@ -285,19 +286,18 @@ function selectMessage(){
   })
 }
 onBeforeUnmount(()=>{
-  console.log("beforeUnmount....");
   socket.close();
 })
 onMounted(() => {
-  console.log("onMounted");
   selectList();
   init();
   selectMessage();
 });
 </script>
 <style lang="less" scoped>
-.el-container{
-  background: url('../../assets/images/login.svg');
+.chat{
+  display: flex;
+  height: 100%;
 }
 
 .bubble {
@@ -393,7 +393,6 @@ onMounted(() => {
 }
 .friendList  {
   display: flex;
-  width: 300px;
   height: 100%;
   
   .el-menu-item{
@@ -408,8 +407,8 @@ onMounted(() => {
   border-radius: 50%;
 }
 .center {
-  height: 795px;
   width: 1200px;
+  height: 100%;
   border-radius: 4px;
   border: 0.5px solid #e0e0e0;
   background-color: rgba(249, 242, 242, 0.6);
@@ -417,10 +416,9 @@ onMounted(() => {
   display: flex;
   flex-flow: column;
   overflow: hidden;
-  float: right;
   padding: 0px;
   .icon{
-    height: 15px;
+    height: 30px;
     background-color: rgb(255, 255, 255);
     display: flex;
     border-top: 0.5px solid #e0e0e0;
@@ -435,19 +433,21 @@ onMounted(() => {
   .content:hover::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
   }
+
   .input-area {
-    border-top: 0.5px solid #e0e0e0;
+    // border-top: 0.5px solid #e0e0e0;
     height: 150px;
     display: flex;
     flex-flow: column;
     background-color: rgba(255, 255, 255, 0.6);
+    
   }
   textarea {
     flex: 1;
     padding: 5px;
     font-size: 14px;
     border: none;
-    cursor: pointer;
+    cursor: text;
     overflow-y: auto;
     overflow-x: hidden;
     outline: none;
@@ -480,20 +480,23 @@ onMounted(() => {
 }
 .right {
   text-align: center;
-  height: 100%;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  flex: 1;
   .userinfo{
     display: flex;
     justify-content: center;
+    flex: 1;
     .el-descriptions{
-      display: flex;
-      margin-top: 60px;
-      text-align:center;
-      justify-content: center;
-      width:300px
-  }
+      margin-top: 30px;
+    }
   }
   .tips{
     margin-top: 50px;
+    flex: 2;
     .warntip{
       font-size: 36px;
       display: flex;
@@ -501,20 +504,23 @@ onMounted(() => {
       }
     .littleTip{
       display: flex;
-      margin-top: 60px;
       justify-content: center;
     }
   }
   .button{
-    margin-top: 340px;
     display: flex;
+    flex: 1;
+    justify-content: space-between;
+    position: relative;
     .confirm{
-      margin-left: 30px;
-      display: flex;
+      position:absolute;
+      bottom: 5px;
+      right: 5px;
     }
     .cancel{
-      margin-left: 100%-50px;
-      display: flex;
+      position:absolute;
+      bottom: 5px;
+      
     }
   }  
 }

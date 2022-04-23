@@ -1,11 +1,13 @@
 <template>
-  <el-container>
-    <el-aside width="400px"> </el-aside>
-    <el-main width="600px">
-      <el-button type="primary" v-if="!update" @click="change">编辑</el-button>
-      <el-descriptions
+  <div class="personInfo">
+      <div class="btn person-header">
+          <p>我的资料</p>
+          <el-button type="primary" v-if="!update" @click="change" size="large">编辑</el-button>
+      </div>
+      
+      <div class="person-form">
+        <el-descriptions
         direction="vertical"
-        title="我的资料"
         :column="1"
         :size="size"
         border
@@ -13,7 +15,6 @@
       >
         <el-descriptions-item label="头像">
           <img :src="user.img" v-if="!update" class="avatar"/>
-
           <el-upload
             class="avatar-uploader"
             action="api/user/upload"
@@ -29,8 +30,8 @@
   </el-upload>
         </el-descriptions-item>
         <el-descriptions-item label="用户名"
-          ><span >{{ user.username }}</span>
-          <!-- <input v-if="update" v-model="user.username" /> -->
+          ><span v-if="!update" >{{ user.username }}</span>
+          <input v-if="update" v-model="user.username" />
         </el-descriptions-item>
 
         <el-descriptions-item label="手机号" :span="2"
@@ -49,12 +50,14 @@
           ><span v-if="!update">{{ user.name }}</span
           ><input v-if="update" v-model="user.name" />
         </el-descriptions-item>
-      </el-descriptions>
-    </el-main>
-    <el-aside width="400px"> </el-aside>
-  </el-container>
-  <el-button @click="alter" type="primary" v-if="update">保存</el-button>
-  <el-button @click="change" v-if="update">取消</el-button>
+      </el-descriptions></div>
+      
+      <div class="btn person-footer">
+        <el-button @click="change" v-if="update" size="large">取消</el-button>
+        <el-button @click="alter" type="primary" v-if="update" size="large" >保存</el-button>
+      </div>
+  </div>
+  
 </template>
 <script lang= ts setup>
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
@@ -125,34 +128,39 @@ onMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-.Form {
-  margin-left: 10%;
-  width: 500px;
-  .avatar{
-    width:50px;
-    height: 50px;
+  .personInfo{
+    display:flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .person-header{
+      display: flex;
+      flex-direction: row;
+      width: 25%;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .person-form{
+       width: 25%;
+      .avatar{
+        width: 300px;
+        height: 240px;
+      }
+      .avatar-uploader{
+        width: 300px;
+        height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #000;
+      }
+    }
+    .person-footer{
+       width: 25%;
+       margin-top: 10px;
+       display: flex;
+       justify-content: space-between;
+    }
   }
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-  
-  font-size: 28px;
-  color: #8c939d;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-}
 </style>
