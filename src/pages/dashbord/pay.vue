@@ -1,5 +1,7 @@
 <template>
-  <button @click="finish">完成支付</button>
+  <div>
+    <button @click="finish">完成支付</button>
+  </div>
 </template>
 <script setup>
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";

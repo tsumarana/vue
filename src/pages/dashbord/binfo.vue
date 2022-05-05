@@ -38,9 +38,6 @@
       <div class="userinfo">
         <el-descriptions title="" column="1">
           <el-descriptions-item label="卖家信誉">新用户</el-descriptions-item>
-          <el-descriptions-item label="成交订单">0笔</el-descriptions-item>
-          <el-descriptions-item label="取消订单">0笔</el-descriptions-item>
-          <el-descriptions-item label="成交概率"></el-descriptions-item>
         </el-descriptions>
       </div>
       <div class="tips">
@@ -50,7 +47,7 @@
       <div class="buy">
         <el-button type="primary" @click="pay()">购买</el-button>
         <el-button type="primary" @click="addTrolley()">添加到购物车</el-button>
-        <el-button type="primary" @click="pay()">与商家联系</el-button>
+        <!-- <el-button type="primary" @click="pay()">与商家联系</el-button> -->
         <el-button @click="$router.push('/chat')">联系客服</el-button>
         
       </div>
@@ -97,8 +94,13 @@ const addTrolley = () =>{
 }
 function selectBrandById(params) {
   api.selectBrandById(params).then((resp) => {
-    info.value = resp.data;
-    info.value.username = localStorage.getItem("username")
+    if(resp.data!=null){
+      info.value = resp.data;
+      info.value.username = localStorage.getItem("username")
+    }else{
+      alert('商品不存在或已被购买')
+    }
+   
   });
 }
 onMounted(() => {

@@ -181,6 +181,7 @@ function error() {
 function getMessage(data) {
   const msg = JSON.parse(data.data)
    if (msg.toName == user.value.username) {
+     console.log(user.value.username+"收到");
     messageList.list.push(msg)
     scrollBottom()
   } else { 

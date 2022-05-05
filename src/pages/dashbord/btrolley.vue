@@ -49,6 +49,7 @@ let tableData = ref([{
   img:'',
 }])
 const pay = (row)=>{
+  deleteTrolley(row);
   api.selectBrandById({id:row.brandId}).then((resp)=>{
     resp.data.username = localStorage.getItem("username")
     api.addBOrder(resp.data).then((resp)=>{
@@ -68,7 +69,6 @@ const increase = (row)=>{
     row.count++
 }
 const deleteTrolley=(row)=>{
-    console.log(row);
     api.deleteTrolley(row).then((resp)=>{
       selectTrolley();
     })

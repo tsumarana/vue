@@ -41,8 +41,8 @@ export const addTrolley = (data) => axios("api/trolley/addTrolley", "post", data
     //修改用户个人信息
 export const alterUser = (data) => axios("api/user/alterUserInfo", "post", data)
     //注销用户
-export const logoffUser = (data) => axios("api/user/logoffUser", "post", data);
-//冻结用户
+export const logoffUser = (data) => axios("api/user/logoffUser", "post", data)
+    //冻结用户
 export const freezeUser = (data) => axios("api/user/freezeUser", "post", data)
     //查询卖家订单
 export const selectSellerOrder = (data) => axios("api/order/selectSellerOrder", "post", data)
@@ -62,3 +62,5 @@ export const selectOrderByUser = (data) => axios("api/border/selectOrderByUser",
 export const confirm = (data) => axios("api/border/confirm", "post", data)
     //取消订单
 export const cancel = (data) => axios("api/border/cancel", "post", data)
+    //获取图标数据
+export const getChartData = () => axios("api/order/getchart")

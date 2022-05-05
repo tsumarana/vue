@@ -57,7 +57,7 @@ let user = ref({
 });
 function selectUser() {
   api.selectUser(url, user.value).then((resp) => {
-    console.log(resp.data);
+    resp.data.rows.shift()
     tableData.value = resp.data.rows;
     totalCount.value = resp.data.totalCount;
   });
@@ -96,7 +96,6 @@ function pageSizeChange(val) {
   selectUser();
 }
 function additionChange(val) {
-  console.log("additionChange", val);
   user.value = val;
   selectUser();
 }

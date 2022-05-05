@@ -55,7 +55,9 @@
 <script setup>
 import { ElMessage } from "element-plus";
 import { ref, reactive ,getCurrentInstance} from "vue";
+import {useRouter} from "vue-router"
 const api = getCurrentInstance().appContext.config.globalProperties.$api;
+const router = useRouter();
 let data = ref({ 
   id : localStorage.getItem("id")
 })
@@ -69,6 +71,7 @@ const exit = () => {
   api.exit(data.value).then((resp)=>{
     if(resp.data==="ok"){
       ElMessage.success("exit success!")
+      router.push("/login")
     }else{
       ElMessage.error("exit error!")
     }

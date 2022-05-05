@@ -30,8 +30,8 @@
   </el-upload>
         </el-descriptions-item>
         <el-descriptions-item label="用户名"
-          ><span v-if="!update" >{{ user.username }}</span>
-          <input v-if="update" v-model="user.username" />
+          ><span  >{{ user.username }}</span>
+          <!-- <input v-if="update" v-model="user.username" /> -->
         </el-descriptions-item>
 
         <el-descriptions-item label="手机号" :span="2"
